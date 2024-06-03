@@ -67,6 +67,7 @@ dev-dependencies = [
     "redis>=5.0.0",
     "mkdocs>=1.6.0",
     "mkdocs-material>=9.5.25",
+    "mike>=2.1.1",
 ]
 
 [tool.hatch.metadata]

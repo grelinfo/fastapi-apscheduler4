@@ -1,5 +1,6 @@
 site_name: FastAPI-APScheduler4
 site_description: FastAPI-APScheduler4 is a simple scheduled task manager for FastAPI based on APScheduler.
+site_url: https://grelinfo.github.io/fastapi-apscheduler4/
 strict: true
 
 theme:
@@ -22,3 +23,18 @@ validation:
 nav:
 - Get Started:
   - Welcome to FastAPI-APScheduler4: index.md
+
+extra:
+  version:
+    provider: mike
+
+plugins:
+  - mike:
+      # These fields are all optional; the defaults are as below...
+      alias_type: symlink
+      redirect_template: null
+      deploy_prefix: ''
+      canonical_version: null
+      version_selector: true
+      css_dir: css
+      javascript_dir: js
