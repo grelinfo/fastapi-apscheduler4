@@ -45,7 +45,7 @@ dependencies = [
 
 [project.urls]
 
-Homepage = "https://github.com/grelinfo/fastapi-apscheduler4"
+Homepage = "https://grelinfo.github.io/fastapi-apscheduler4/"
 Repository = "https://github.com/grelinfo/fastapi-apscheduler4.git"
 Issues = "https://github.com/grelinfo/fastapi-apscheduler4/issues"
 
@@ -62,9 +62,11 @@ dev-dependencies = [
     "pytest-mock>=3.0.0",
     "pre-commit>=3.0.0",
     "pre-commit-hooks>=4.0.0",
-    "sqlalchemy>=2.0.30",
-    "asyncpg>=0.29.0",
-    "redis>=5.0.4",
+    "sqlalchemy>=2.0.0",
+    "asyncpg>=0.20.0",
+    "redis>=5.0.0",
+    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.5.25",
 ]
 
 [tool.hatch.metadata]
