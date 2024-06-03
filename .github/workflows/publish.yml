@@ -1,0 +1,19 @@
+name: Publish
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Rye
+      uses: eifinger/setup-rye@v3
+    - name: Bump version
+      run: rye version ${{ github.event.release.tag_name }}
+    - name: Build
+      run: rye build --wheel --clean
+    - name: Publish
+      run: rye publish --token ${{ secrets.PYPI_TOKEN }} --yes
