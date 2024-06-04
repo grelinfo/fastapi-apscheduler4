@@ -1,16 +1,11 @@
 """Configuration models."""
 
-from __future__ import annotations
-
 import os
 from enum import Enum
 from typing import Annotated, cast
 
-from apscheduler import AsyncScheduler
-from pydantic import BaseModel, ConfigDict, Field, PostgresDsn, RedisDsn, SecretStr, computed_field
+from pydantic import BaseModel, ConfigDict, Field, PostgresDsn, RedisDsn, SecretStr
 from pydantic_core import MultiHostUrl, Url
-from redis.asyncio import Redis
-from sqlalchemy.ext.asyncio import AsyncEngine
 
 
 class EventBrokerType(str, Enum):
@@ -31,7 +26,7 @@ class DataStoreType(str, Enum):
 class _BaseConfig(BaseModel):
     """Base Config."""
 
-    model_config = ConfigDict(validate_default=True, arbitrary_types_allowed=True, extra="forbid")
+    model_config = ConfigDict(validate_default=True, extra="forbid", frozen=True)
 
 
 class PostgresConfig(_BaseConfig):
@@ -59,6 +54,12 @@ class PostgresConfig(_BaseConfig):
         return self.get_postgres_dsn().unicode_string()
 
 
+class RedisChannelConfig(_BaseConfig):
+    """Redis Channel Config."""
+
+    channel: str = "apscheduler"
+
+
 class RedisConfig(_BaseConfig):
     """Redis Config."""
 
@@ -67,6 +68,7 @@ class RedisConfig(_BaseConfig):
     user: str
     password: SecretStr
     db: int = 0
+    channel: str = "apscheduler"
 
     def get_redis_dsn(self) -> RedisDsn:
         """Get the Redis URL."""
@@ -87,6 +89,7 @@ class RedisConfig(_BaseConfig):
 class APIConfig(_BaseConfig):
     """API Config."""
 
+    enabled: bool = True
     prefix: str = "/api/v1"
     tags: list[str | Enum] | None = ["scheduler"]
     include_in_schema: bool = True
@@ -114,52 +117,15 @@ class APSchedulerConfig(_BaseConfig):
     """APScheduler config."""
 
     event_broker: EventBrokerType | None = None
-    data_store_store: DataStoreType | None = None
+    data_store: DataStoreType | None = None
 
-    postgres: PostgresConfig | AsyncEngine | None = None
-    redis: RedisConfig | Redis | None = None
-    redis_channel: str = "apscheduler"
-
-    @computed_field  # type: ignore[misc] #> mypy issue #1362
-    @property
-    def computed_event_broker(self) -> EventBrokerType:
-        """Computed broker.
-
-        Priority:
-        1. Explicit broker.
-        2. Redis.
-        3. Postgres.
-        """
-        if not self.event_broker:
-            if self.redis:
-                return EventBrokerType.REDIS
-            if self.postgres:
-                return EventBrokerType.POSTGRES
-            return EventBrokerType.MEMORY
-        return self.event_broker
-
-    @computed_field  # type: ignore[misc] #> mypy issue #1362
-    @property
-    def computed_data_store(self) -> DataStoreType:
-        """Computed store.
-
-        Priority:
-        1. Explicit store.
-        2. Postgres.
-        3. Memory.
-        """
-        if not self.data_store_store:
-            if self.postgres:
-                return DataStoreType.POSTGRES
-            return DataStoreType.MEMORY
-        return self.data_store_store
+    postgres: PostgresConfig | None = None
+    redis: RedisConfig | RedisChannelConfig | None = None
 
 
 class SchedulerConfig(_BaseConfig):
     """FastAPI-APScheduler4 config."""
 
     auto_start: bool = True
-    apscheduler: APSchedulerConfig | AsyncScheduler = APSchedulerConfig()
-    api: Annotated[APIConfig | None, Field(description="API configuration (None to disable all API routes).")] = (
-        APIConfig()
-    )
+    apscheduler: APSchedulerConfig | None = None
+    api: Annotated[APIConfig, Field(description="API configuration (None to disable all API routes).")] = APIConfig()

@@ -18,13 +18,15 @@ from fastapi_apscheduler4.config import (
     DataStoreType,
     EventBrokerType,
     PostgresConfig,
+    RedisChannelConfig,
     RedisConfig,
     SchedulerConfig,
 )
-from fastapi_apscheduler4.errors import AlreadySetupError, MissingConfigError
+from fastapi_apscheduler4.errors import AlreadySetupError, InvalidConfigError
 from fastapi_apscheduler4.scheduler import Scheduler
 from pydantic import SecretStr
 from redis.asyncio import Redis
+from sqlalchemy.ext.asyncio import create_async_engine
 from typer import echo
 
 
@@ -81,9 +83,9 @@ def test_include_scheduler(config: SchedulerConfig) -> None:
     scheduler_app.include_scheduler(scheduler2)
 
     # Assert
-    assert len(scheduler_app.scheduler._schedules) == schedules_count
-    scheduler1_func, scheduler1_trigger = scheduler_app.scheduler._schedules[0]
-    scheduler2_func, scheduler2_trigger = scheduler_app.scheduler._schedules[1]
+    assert len(scheduler_app._scheduler._schedules) == schedules_count
+    scheduler1_func, scheduler1_trigger = scheduler_app._scheduler._schedules[0]
+    scheduler2_func, scheduler2_trigger = scheduler_app._scheduler._schedules[1]
 
     assert scheduler1_func == every_second
     assert isinstance(scheduler1_trigger, IntervalTrigger)
@@ -100,7 +102,7 @@ def test_scheduler_lifespan(config: SchedulerConfig, capsys: pytest.CaptureFixtu
     """Test scheduler lifespan."""
     # Arrange
     scheduler_app = SchedulerApp(config)
-    scheduler_app.scheduler.interval(seconds=1)(echo_test1)
+    scheduler_app._scheduler.interval(seconds=1)(echo_test1)
 
     app = FastAPI(lifespan=scheduler_app.lifespan)
     app.add_route("/", route_test, methods=["GET"])
@@ -128,7 +130,7 @@ def test_setup_memory() -> None:
     config = SchedulerConfig(
         apscheduler=APSchedulerConfig(
             event_broker=EventBrokerType.MEMORY,
-            data_store_store=DataStoreType.MEMORY,
+            data_store=DataStoreType.MEMORY,
         )
     )
 
@@ -137,8 +139,8 @@ def test_setup_memory() -> None:
 
     # Assert
     assert isinstance(config.apscheduler, APSchedulerConfig)
-    assert config.apscheduler.computed_event_broker is EventBrokerType.MEMORY
-    assert config.apscheduler.computed_data_store is DataStoreType.MEMORY
+    assert scheduler_app.event_broker is EventBrokerType.MEMORY
+    assert scheduler_app.data_store is DataStoreType.MEMORY
     assert isinstance(scheduler_app.apscheduler.event_broker, LocalEventBroker)
     assert isinstance(scheduler_app.apscheduler.data_store, MemoryDataStore)
 
@@ -158,29 +160,37 @@ def test_setup_redis() -> None:
             ),
         )
     )
-    config_redis_client = SchedulerConfig(
-        apscheduler=APSchedulerConfig(
-            event_broker=EventBrokerType.REDIS, redis=Redis.from_url("redis://username:password@localhost:6379/0")
-        )
+    config_without_redis = SchedulerConfig(apscheduler=APSchedulerConfig(event_broker=EventBrokerType.REDIS))
+    config_with_channel = SchedulerConfig(
+        apscheduler=APSchedulerConfig(event_broker=EventBrokerType.REDIS, redis=RedisChannelConfig(channel="test"))
     )
-    config_missing_redis = SchedulerConfig(apscheduler=APSchedulerConfig(event_broker=EventBrokerType.REDIS))
+    redis = Redis.from_url("redis://username:password@localhost:6379/0")
 
     # Act
     scheduler_app = SchedulerApp(config=config)
-    scheduler_app_redis_client = SchedulerApp(config=config_redis_client)
-    with pytest.raises(MissingConfigError, match="redis"):
-        SchedulerApp(config=config_missing_redis)
+    scheduler_app_custom_redis = SchedulerApp(config=config, redis=redis)
+    scheduler_app_without_config = SchedulerApp(config_with_channel, redis=redis)
+    with pytest.raises(InvalidConfigError, match="redis"):
+        SchedulerApp(config=config_without_redis)
+    with pytest.raises(InvalidConfigError, match="redis"):
+        SchedulerApp(config=config_with_channel)
+    with pytest.raises(InvalidConfigError, match="redis"):
+        SchedulerApp(redis=redis)
 
     # Assert
     assert isinstance(config.apscheduler, APSchedulerConfig)
-    assert config.apscheduler.computed_event_broker is EventBrokerType.REDIS
+    assert scheduler_app.event_broker is EventBrokerType.REDIS
     assert isinstance(scheduler_app.apscheduler.event_broker, RedisEventBroker)
     assert isinstance(scheduler_app.apscheduler.data_store, MemoryDataStore)
 
-    assert isinstance(config_redis_client.apscheduler, APSchedulerConfig)
-    assert config_redis_client.apscheduler.computed_event_broker is EventBrokerType.REDIS
-    assert isinstance(scheduler_app_redis_client.apscheduler.event_broker, RedisEventBroker)
-    assert isinstance(scheduler_app_redis_client.apscheduler.data_store, MemoryDataStore)
+    assert isinstance(config_without_redis.apscheduler, APSchedulerConfig)
+    assert scheduler_app_custom_redis.event_broker is EventBrokerType.REDIS
+    assert isinstance(scheduler_app_custom_redis.apscheduler.event_broker, RedisEventBroker)
+    assert isinstance(scheduler_app_custom_redis.apscheduler.data_store, MemoryDataStore)
+
+    assert scheduler_app_without_config.event_broker is EventBrokerType.REDIS
+    assert isinstance(scheduler_app_without_config.apscheduler.event_broker, RedisEventBroker)
+    assert isinstance(scheduler_app_without_config.apscheduler.data_store, MemoryDataStore)
 
 
 def test_setup_postgres(
@@ -191,7 +201,7 @@ def test_setup_postgres(
     config = SchedulerConfig(
         apscheduler=APSchedulerConfig(
             event_broker=EventBrokerType.POSTGRES,
-            data_store_store=DataStoreType.POSTGRES,
+            data_store=DataStoreType.POSTGRES,
             postgres=PostgresConfig(
                 host="localhost",
                 port=5432,
@@ -201,23 +211,38 @@ def test_setup_postgres(
             ),
         )
     )
+    config_without_postgres = SchedulerConfig(apscheduler=APSchedulerConfig(event_broker=EventBrokerType.POSTGRES))
+    engine = create_async_engine("postgresql+asyncpg://username:password@localhost:5432/test")
 
     # Act
     app_scheduler = SchedulerApp(config=config)
+    app_schedule_engine = SchedulerApp(config=config, engine=engine)
+    app_scheduler_without_config = SchedulerApp(engine=engine)
+    with pytest.raises(InvalidConfigError, match="postgres"):
+        SchedulerApp(config=config_without_postgres)
 
     # Assert
     assert isinstance(config.apscheduler, APSchedulerConfig)
-    assert config.apscheduler.computed_event_broker is EventBrokerType.POSTGRES
-    assert config.apscheduler.computed_data_store is DataStoreType.POSTGRES
+    assert app_scheduler.event_broker is EventBrokerType.POSTGRES
+    assert app_scheduler.data_store is DataStoreType.POSTGRES
     assert isinstance(app_scheduler.apscheduler.event_broker, AsyncpgEventBroker)
     assert isinstance(app_scheduler.apscheduler.data_store, SQLAlchemyDataStore)
+
+    assert isinstance(config_without_postgres.apscheduler, APSchedulerConfig)
+    assert app_schedule_engine.event_broker is EventBrokerType.POSTGRES
+    assert app_schedule_engine.data_store is DataStoreType.POSTGRES
+    assert isinstance(app_schedule_engine.apscheduler.event_broker, AsyncpgEventBroker)
+    assert isinstance(app_schedule_engine.apscheduler.data_store, SQLAlchemyDataStore)
+
+    assert app_scheduler_without_config.event_broker is EventBrokerType.POSTGRES
+    assert isinstance(app_scheduler_without_config.apscheduler.event_broker, AsyncpgEventBroker)
 
 
 @pytest.mark.parametrize("scheduler_api", [True, False])
 def test_setup_api(scheduler_api: bool) -> None:
     """Test setup of api."""
     # Arrange
-    config = SchedulerConfig(api=APIConfig() if scheduler_api else None)
+    config = SchedulerConfig(api=APIConfig(enabled=scheduler_api))
     app_scheduler = SchedulerApp(config=config)
     app = FastAPI(lifespan=app_scheduler.lifespan)
     app_scheduler.setup(app)

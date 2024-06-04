@@ -58,26 +58,15 @@ class ConfigError(FastAPIAPScheduler4Error):
     """
 
 
-class MissingEngineError(ConfigError, AssertionError):
-    """Missing Engine during configuration.
-
-    Should not happen as the engine is created during initialization.
-    """
-
-    def __init__(self) -> None:
-        """Initialize the error."""
-        super().__init__("FastAPIAPScheduler4 setup failed because of missing engine")
-
-
-class MissingConfigError(ConfigError):
-    """Missing Configuration Error.
+class InvalidConfigError(ConfigError):
+    """Invalid Configuration Error.
 
     Raised when the configuration is missing.
     """
 
     def __init__(self, loc: str, detail: str) -> None:
         """Initialize the error."""
-        super().__init__(f"Missing configuration at {loc}: {detail}")
+        super().__init__(f"Invalid configuration at {loc}: {detail}")
 
 
 class ScheduleAlreadyExistsError(FastAPIAPScheduler4Error, ValueError):
