@@ -1,1 +1,0 @@
-{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"Welcome to FastAPI-APScheduler4","text":"<p>FastAPI-APScheduler4 is a simple scheduled task manager for FastAPI based on APScheduler version 4.</p>"}]}
