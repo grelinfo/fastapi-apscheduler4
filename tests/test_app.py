@@ -79,8 +79,8 @@ def test_include_scheduler(config: SchedulerConfig) -> None:
         """Test register async every minute."""
 
     # Act
-    scheduler_app.include_scheduler(scheduler1)
-    scheduler_app.include_scheduler(scheduler2)
+    scheduler_app.include(scheduler1)
+    scheduler_app.include(scheduler2)
 
     # Assert
     assert len(scheduler_app._scheduler._schedules) == schedules_count

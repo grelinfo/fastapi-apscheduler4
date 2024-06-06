@@ -35,7 +35,7 @@ class Scheduler:
         """
         self._schedules: list[ScheduleType] = []
 
-    def include_scheduler(self, scheduler: Self) -> None:
+    def include(self, scheduler: Self) -> None:
         """Include the scheduler."""
         self._schedules.extend(scheduler.schedules)
 

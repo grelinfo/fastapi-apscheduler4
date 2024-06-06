@@ -13,7 +13,7 @@ FastAPI-APScheduler4 is a simple scheduled task manager for FastAPI based on APS
 
 **Documentation**: [https://grelinfo.github.io/fastapi-apscheduler4/](https://grelinfo.github.io/fastapi-apscheduler4/)
 
-**Source Code**: [https://](https://github.com/grelinfo/fastapi-apscheduler4](https://github.com/grelinfo/fastapi-apscheduler4)
+**Source Code**: [https://github.com/grelinfo/fastapi-apscheduler4](https://github.com/grelinfo/fastapi-apscheduler4)
 
 ---
 

@@ -58,8 +58,7 @@ Currently the following dependencies are supported:
     poetry add sqlalchemy redis
     ```
 
-## Usage
-
+## Basic Usage
 
 Quick start with configuration from environment variables:
 
@@ -67,7 +66,7 @@ Quick start with configuration from environment variables:
 {!> src/getting_started/tutorial001.py!}
 ```
 
-## Configuration
+### Configuration
 
 The following configuration options are available.
 

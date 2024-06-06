@@ -102,9 +102,9 @@ class SchedulerApp:
             app.include_router(SchedulesAPIRouter.from_config(self.apscheduler, self._config.api))
             app.include_router(TasksAPIRouter.from_config(self.apscheduler, self._config.api))
 
-    def include_scheduler(self, scheduler: Scheduler) -> None:
+    def include(self, scheduler: Scheduler) -> None:
         """Include the scheduler."""
-        self._scheduler.include_scheduler(scheduler)
+        self._scheduler.include(scheduler)
 
     def interval(
         self,
