@@ -15,5 +15,13 @@ jobs:
       run: rye version ${{ github.event.release.tag_name }}
     - name: Build
       run: rye build --wheel --clean
-    - name: Publish
+    - name: Publish package
       run: rye publish --token ${{ secrets.PYPI_TOKEN }} --yes
+    - name: Setup git for documentation
+      run: |
+        git config user.name "grelinfo-bot"
+        git config user.email "grelinfo@users.noreply.github.com"
+    - id: get_version
+      uses: battila7/get-version-action@v2
+    - name: Publish documentation
+      run: rye run mike deploy ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }}

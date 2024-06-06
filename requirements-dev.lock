@@ -42,6 +42,8 @@ colorama==0.4.6
     # via mkdocs-material
 coverage==7.5.3
     # via pytest-cov
+cyclic==1.0.0
+    # via mdx-include
 distlib==0.3.8
     # via virtualenv
 dnspython==2.6.1
@@ -89,6 +91,7 @@ jinja2==3.1.4
     # via mkdocs
     # via mkdocs-material
 markdown==3.6
+    # via mdx-include
     # via mkdocs
     # via mkdocs-material
     # via pymdown-extensions
@@ -99,6 +102,7 @@ markupsafe==2.1.5
     # via mkdocs
 mdurl==0.1.2
     # via markdown-it-py
+mdx-include==1.4.2
 mergedeep==1.3.4
     # via mkdocs
     # via mkdocs-get-deps
@@ -169,6 +173,8 @@ pyyaml==6.0.1
 pyyaml-env-tag==0.1
     # via mike
     # via mkdocs
+rcslice==1.1.0
+    # via mdx-include
 redis==5.0.4
 regex==2024.5.15
     # via mkdocs-material

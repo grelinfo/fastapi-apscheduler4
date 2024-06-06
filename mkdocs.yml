@@ -11,6 +11,11 @@ theme:
   font:
     text: 'Roboto'
     code: 'Roboto Mono'
+  features:
+    - content.tabs.link
+    - content.code.copy
+    - content.code.select
+    - content.tooltips
 
 repo_name: grelinfo/fastapi-apscheduler4
 repo_url: https://github.com/grelinfo/fastapi-apscheduler4
@@ -21,8 +26,16 @@ validation:
   unrecognized_links: warn
 
 nav:
-- Get Started:
-  - Welcome to FastAPI-APScheduler4: index.md
+- Home: index.md
+- Getting Started: getting_started.md
+
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - codehilite
+  - mdx_include:
+      base_path: docs
 
 extra:
   version:

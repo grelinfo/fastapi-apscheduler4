@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
-from typing import TYPE_CHECKING, Annotated, Any, cast
+from typing import TYPE_CHECKING, Annotated, Any, ParamSpec, cast
 
 from apscheduler import AsyncScheduler, ConflictPolicy
 from apscheduler._marshalling import callable_to_ref
-from typing_extensions import Doc, assert_never
+from typing_extensions import Doc, TypeVar, assert_never
 
 from fastapi_apscheduler4 import logger
 from fastapi_apscheduler4.config import (
@@ -29,6 +29,9 @@ if TYPE_CHECKING:
     from fastapi import FastAPI
     from redis.asyncio import Redis
     from sqlalchemy.ext.asyncio import AsyncEngine
+
+P = ParamSpec("P")
+RT = TypeVar("RT")
 
 
 class SchedulerApp:
@@ -102,6 +105,50 @@ class SchedulerApp:
     def include_scheduler(self, scheduler: Scheduler) -> None:
         """Include the scheduler."""
         self._scheduler.include_scheduler(scheduler)
+
+    def interval(
+        self,
+        weeks: float = 0,
+        days: float = 0,
+        hours: float = 0,
+        minutes: float = 0,
+        seconds: float = 0,
+        microseconds: float = 0,
+    ) -> Callable[[Callable[P, RT]], Callable[P, RT]]:
+        """Decorator to schedule a task for a given interval.
+
+        See: https://apscheduler.readthedocs.io/en/master/api.html#apscheduler.triggers.interval.IntervalTrigger
+        """
+        """Decorator to add an interval schedule."""
+        return self._scheduler.interval(
+            weeks=weeks, days=days, hours=hours, minutes=minutes, seconds=seconds, microseconds=microseconds
+        )
+
+    def cron(  # noqa: PLR0913
+        self,
+        year: int | str | None = None,
+        month: int | str | None = None,
+        day: int | str | None = None,
+        week: int | str | None = None,
+        day_of_week: int | str | None = None,
+        hour: int | str | None = None,
+        minute: int | str | None = None,
+        second: int | str | None = None,
+    ) -> Callable[[Callable[P, RT]], Callable[P, RT]]:
+        """Decorator to schedule a task when current time matches all specified time constraints.
+
+        See: https://apscheduler.readthedocs.io/en/master/api.html#apscheduler.triggers.cron.CronTrigger
+        """
+        return self._scheduler.cron(
+            year=year,
+            month=month,
+            day=day,
+            week=week,
+            day_of_week=day_of_week,
+            hour=hour,
+            minute=minute,
+            second=second,
+        )
 
     @property
     def apscheduler(self) -> AsyncScheduler:

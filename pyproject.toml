@@ -68,6 +68,8 @@ dev-dependencies = [
     "mkdocs>=1.6.0",
     "mkdocs-material>=9.5.25",
     "mike>=2.1.1",
+    "mdx-include>=1.4.2",
+    "pygments>=2.18.0",
 ]
 
 [tool.hatch.metadata]
@@ -137,6 +139,12 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"docs/*" = [
+  "D100",  # undocumented-public-module
+  "D103",  # undocumented-public-function
+  "INP001",# implicit-namespace-package
+  "T201",  # print
+]
 "tests/*" = [
   "S101", # assert
   "SLF001", # private-member-access
