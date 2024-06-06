@@ -11,8 +11,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: Configure Git Credentials
       run: |
-        git config user.name "grelinfo-bot"
-        git config user.email "grelinfo@users.noreply.github.com"
+        git config user.name "${GITHUB_ACTOR}"
+        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
     - name: Install Rye
       uses: eifinger/setup-rye@v3
     - name: Sync Rye
@@ -25,7 +25,13 @@ jobs:
       run: rye publish --token ${{ secrets.PYPI_TOKEN }} --yes
     - id: get_version
       uses: battila7/get-version-action@v2
-    - name: Fetch documentation
+    - name: Fetch Git Configuration
       run: git fetch origin gh-pages --depth=1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish documentation
-      run: rye run mike deploy --push ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} latest
+      run: |
+        remote_repo="https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        rye run mike deploy --push ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

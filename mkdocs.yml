@@ -18,7 +18,7 @@ theme:
     - content.tooltips
 
 repo_name: grelinfo/fastapi-apscheduler4
-repo_url: https://github.com/grelinfo/fastapi-apscheduler4
+repo_url: https://github.com/grelinfo/fastapi-apscheduler4/
 
 validation:
   omitted_files: warn
