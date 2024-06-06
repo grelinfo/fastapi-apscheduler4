@@ -25,13 +25,7 @@ jobs:
       run: rye publish --token ${{ secrets.PYPI_TOKEN }} --yes
     - id: get_version
       uses: battila7/get-version-action@v2
-    - name: Fetch Git Configuration
+    - name: Git Fetch Docs
       run: git fetch origin gh-pages --depth=1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Publish documentation
-      run: |
-        remote_repo="https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-        rye run mike deploy --push ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish Docs
+      run: rye run mike deploy --push ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} latest
