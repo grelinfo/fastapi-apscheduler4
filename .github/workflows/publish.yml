@@ -25,5 +25,7 @@ jobs:
       run: rye publish --token ${{ secrets.PYPI_TOKEN }} --yes
     - id: get_version
       uses: battila7/get-version-action@v2
+    - name: Fetch documentation
+      run: git fetch origin gh-pages --depth=1
     - name: Publish documentation
       run: rye run mike deploy --push ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} latest
