@@ -17,15 +17,15 @@ def test_config_broker() -> None:
         apscheduler=APSchedulerConfig(
             postgres=PostgresConfig(
                 host="localhost",
-                db="test",
-                user="test",
+                dbname="test",
+                username="test",
                 password=SecretStr("test"),
             )
         )
     )
     config_auto_redis = SchedulerConfig(
         apscheduler=APSchedulerConfig(
-            redis=RedisConfig(host="localhost", user="test", password=SecretStr("test")),
+            redis=RedisConfig(host="localhost", username="test", password=SecretStr("test")),
         )
     )
 
@@ -43,8 +43,8 @@ def test_config_store() -> None:
         apscheduler=APSchedulerConfig(
             postgres=PostgresConfig(
                 host="localhost",
-                db="test",
-                user="test",
+                dbname="test",
+                username="test",
                 password=SecretStr("test"),
             )
         )

@@ -18,13 +18,13 @@ config = SchedulerConfig(
         data_store=DataStoreType.POSTGRES,
         postgres=PostgresConfig(
             host="localhost",
-            user="postgres",
+            username="postgres",
             password=SecretStr("postgres"),
-            db="scheduler",
+            dbname="scheduler",
         ),
         redis=RedisConfig(
             host="localhost",
-            user="redis",
+            username="redis",
             password=SecretStr("postgres"),
             db=0,
         ),

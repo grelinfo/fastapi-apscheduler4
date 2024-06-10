@@ -63,16 +63,16 @@ def get_config_from_env_vars() -> SchedulerConfig:
         config["apscheduler"]["postgres"] = {}
         dict_add_if_not_none(config["apscheduler"]["postgres"], "host", settings.POSTGRES_HOST)
         dict_add_if_not_none(config["apscheduler"]["postgres"], "port", settings.POSTGRES_PORT)
-        dict_add_if_not_none(config["apscheduler"]["postgres"], "user", settings.POSTGRES_USER)
+        dict_add_if_not_none(config["apscheduler"]["postgres"], "username", settings.POSTGRES_USER)
         dict_add_if_not_none(config["apscheduler"]["postgres"], "password", settings.POSTGRES_PASSWORD)
-        dict_add_if_not_none(config["apscheduler"]["postgres"], "db", settings.POSTGRES_DB)
+        dict_add_if_not_none(config["apscheduler"]["postgres"], "dbname", settings.POSTGRES_DB)
 
     if settings.REDIS_HOST:
         config["apscheduler"] = config.get("apscheduler", {})
         config["apscheduler"]["redis"] = {}
         dict_add_if_not_none(config["apscheduler"]["redis"], "host", settings.REDIS_HOST)
         dict_add_if_not_none(config["apscheduler"]["redis"], "port", settings.REDIS_PORT)
-        dict_add_if_not_none(config["apscheduler"]["redis"], "user", settings.REDIS_USER)
+        dict_add_if_not_none(config["apscheduler"]["redis"], "username", settings.REDIS_USER)
         dict_add_if_not_none(config["apscheduler"]["redis"], "password", settings.REDIS_PASSWORD)
         dict_add_if_not_none(config["apscheduler"]["redis"], "db", settings.REDIS_DB)
         dict_add_if_not_none(config["apscheduler"]["redis"], "channel", settings.SCHEDULER_REDIS_CHANNEL)

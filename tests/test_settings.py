@@ -33,8 +33,8 @@ def test_settings_config_postgres(monkeypatch: pytest.MonkeyPatch) -> None:
         apscheduler=APSchedulerConfig(
             postgres=PostgresConfig(
                 host="localhost",
-                db="test",
-                user="test",
+                dbname="test",
+                username="test",
                 password=SecretStr("test"),
             )
         )
@@ -56,7 +56,7 @@ def test_settings_config_redis(monkeypatch: pytest.MonkeyPatch) -> None:
     # Arrange
     expected_config = SchedulerConfig(
         apscheduler=APSchedulerConfig(
-            redis=RedisConfig(host="localhost", user="test", password=SecretStr("test")),
+            redis=RedisConfig(host="localhost", username="test", password=SecretStr("test")),
         )
     )
     monkeypatch.setenv("REDIS_HOST", "localhost")

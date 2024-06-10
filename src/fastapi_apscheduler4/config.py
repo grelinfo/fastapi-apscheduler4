@@ -34,19 +34,19 @@ class PostgresConfig(_BaseConfig):
 
     host: str
     port: int = 5432
-    user: str | None = None
+    username: str | None = None
     password: SecretStr
-    db: str
+    dbname: str
 
     def get_postgres_dsn(self) -> PostgresDsn:
         """Get Postgres URL."""
         return MultiHostUrl.build(
             scheme="postgresql+asyncpg",
-            username=self.user,
+            username=self.username,
             password=self.password.get_secret_value(),
             host=self.host,
             port=self.port,
-            path=self.db,
+            path=self.dbname,
         )
 
     def get_postgres_url(self) -> str:
@@ -65,7 +65,7 @@ class RedisConfig(_BaseConfig):
 
     host: str
     port: int = 6379
-    user: str
+    username: str
     password: SecretStr
     db: int = 0
     channel: str = "apscheduler"
@@ -74,7 +74,7 @@ class RedisConfig(_BaseConfig):
         """Get the Redis URL."""
         return Url.build(
             scheme="redis",
-            username=self.user,
+            username=self.username,
             password=self.password.get_secret_value(),
             host=self.host,
             port=self.port,

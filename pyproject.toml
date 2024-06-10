@@ -70,6 +70,7 @@ dev-dependencies = [
     "mike>=2.1.1",
     "mdx-include>=1.4.2",
     "pygments>=2.18.0",
+    "testcontainers[postgres]>=4.5.1",
 ]
 
 [tool.hatch.metadata]
@@ -95,10 +96,7 @@ testpaths = "tests"
 [tool.coverage.report]
 sort = "Cover"
 exclude_also = [
-    # "raise NotImplementedError",
     "if TYPE_CHECKING:",
-    # "class .*\\bProtocol\\):",
-    # "@(abc\\.)?abstractmethod",
     "assert_never.*",
     ]
 

@@ -98,7 +98,7 @@ def test_include_scheduler(config: SchedulerConfig) -> None:
     assert scheduler2_trigger.minutes == 1
 
 
-def test_scheduler_lifespan(config: SchedulerConfig, capsys: pytest.CaptureFixture[str]) -> None:
+def test_app_lifespan(config: SchedulerConfig, capsys: pytest.CaptureFixture[str]) -> None:
     """Test scheduler lifespan."""
     # Arrange
     scheduler_app = SchedulerApp(config)
@@ -155,7 +155,7 @@ def test_setup_redis() -> None:
                 host="localhost",
                 port=6379,
                 db=0,
-                user="username",
+                username="username",
                 password=SecretStr("password"),
             ),
         )
@@ -205,8 +205,8 @@ def test_setup_postgres(
             postgres=PostgresConfig(
                 host="localhost",
                 port=5432,
-                db="test",
-                user="username",
+                dbname="test",
+                username="username",
                 password=SecretStr("password"),
             ),
         )
