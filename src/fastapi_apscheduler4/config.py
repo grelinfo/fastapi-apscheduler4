@@ -4,7 +4,7 @@ import os
 from enum import Enum
 from typing import Annotated, cast
 
-from pydantic import BaseModel, ConfigDict, Field, PostgresDsn, RedisDsn, SecretStr
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, PostgresDsn, RedisDsn, SecretStr
 from pydantic_core import MultiHostUrl, Url
 
 
@@ -34,7 +34,7 @@ class PostgresConfig(_BaseConfig):
 
     host: str
     port: int = 5432
-    username: str | None = None
+    username: str = Field(validation_alias=AliasChoices("user", "username"))
     password: SecretStr
     dbname: str
 
@@ -65,7 +65,7 @@ class RedisConfig(_BaseConfig):
 
     host: str
     port: int = 6379
-    username: str
+    username: str = Field(validation_alias=AliasChoices("user", "username"))
     password: SecretStr
     db: int = 0
     channel: str = "apscheduler"
