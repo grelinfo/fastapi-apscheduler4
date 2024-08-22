@@ -104,7 +104,7 @@ class Scheduler:
 
         return decorator
 
-    def calendar_interval(  # noqa: PLR0913
+    def calendar_interval(
         self,
         years: int = 0,
         months: int = 0,
