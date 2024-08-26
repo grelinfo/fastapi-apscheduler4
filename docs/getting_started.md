@@ -91,7 +91,7 @@ The following configuration options are available.
 
     * **`POSTGRES_HOST`**: The PostgreSQL host.
     * **`POSTGRES_PORT`**: The PostgreSQL port. Default is `5432`.
-    * **`POSTGRES_USER`**: The PostgreSQL user.
+    * **`POSTGRES_USER` or `POSTGRES_USERNAME`**: The PostgreSQL user.
     * **`POSTGRES_PASSWORD`**: The PostgreSQL password.
     * **`POSTGRES_DB`**: The PostgreSQL database.
 
@@ -99,7 +99,7 @@ The following configuration options are available.
 
     * **`REDIS_HOST`**: The Redis host.
     * **`REDIS_PORT`**: The Redis port. Default is `6379`.
-    * **`REDIS_USER`**: The Redis user.
+    * **`REDIS_USER` or `REDIS_USERNAME`**: The Redis user.
     * **`REDIS_PASSWORD`**: The Redis password.
     * **`REDIS_DB`**: The Redis database.
     * **`SCHEDULER_REDIS_CHANNEL`**: The Redis channel. Default is `apscheduler`.
@@ -112,7 +112,6 @@ The following configuration options are available.
     * **`SchedulerAPIConfig`**: The API configuration model.
     * **`PostgresConfig`**: The PostgreSQL configuration model.
     * **`RedisConfig`**: The Redis configuration model.
-    * **`RedisChannelConfig`**: The Redis channel configuration model when providing a redis client.
 
     You can use these models to create your own configuration.
 
