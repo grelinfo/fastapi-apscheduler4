@@ -4,10 +4,10 @@ from typing import Annotated
 
 from fastapi import Depends, Query
 
-from fastapi_apscheduler4.config import APIConfig
+from fastapi_apscheduler4.config import SchedulerAPIEnvConfig
 from fastapi_apscheduler4.dtos import LimitOffset
 
-_config = APIConfig()  # pyright: ignore[reportCallIssue]
+_config = SchedulerAPIEnvConfig()  # pyright: ignore[reportCallIssue]
 
 
 def limit_offset(

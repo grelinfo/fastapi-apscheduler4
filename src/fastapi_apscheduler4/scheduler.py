@@ -13,8 +13,6 @@ from fastapi_apscheduler4.errors import ScheduleAlreadyExistsError
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from typing_extensions import Self
-
     from fastapi_apscheduler4.dtos import ScheduleType
 
 P = ParamSpec("P")
@@ -35,7 +33,7 @@ class Scheduler:
         """
         self._schedules: list[ScheduleType] = []
 
-    def include(self, scheduler: Self) -> None:
+    def include(self, scheduler: Scheduler) -> None:
         """Include the scheduler."""
         self._schedules.extend(scheduler.schedules)
 

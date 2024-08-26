@@ -2,132 +2,71 @@
 
 import pytest
 from fastapi_apscheduler4.config import (
-    APIConfig,
-    APSchedulerConfig,
-    DataStoreType,
-    EventBrokerType,
     PostgresConfig,
+    PostgresEnvConfig,
     RedisConfig,
+    RedisEnvConfig,
+    SchedulerAPIEnvConfig,
     SchedulerConfig,
+    SchedulerEnvConfig,
 )
-from fastapi_apscheduler4.settings import get_config_from_env_vars
 from pydantic import SecretStr
 
 
-def test_config_broker() -> None:
-    """Test config broker."""
-    # Arrange & Act
-    config_auto_memory = SchedulerConfig()
-    config_auto_postgres_config = SchedulerConfig(
-        apscheduler=APSchedulerConfig(
-            postgres=PostgresConfig(
-                host="localhost",
-                dbname="test",
-                username="test",
-                password=SecretStr("test"),
-            )
-        )
-    )
-    config_auto_redis = SchedulerConfig(
-        apscheduler=APSchedulerConfig(
-            redis=RedisConfig(host="localhost", username="test", password=SecretStr("test")),
-        )
-    )
-
-    # Assert
-    assert config_auto_memory.apscheduler is None
-    assert isinstance(config_auto_postgres_config.apscheduler, APSchedulerConfig)
-    assert isinstance(config_auto_redis.apscheduler, APSchedulerConfig)
-
-
-def test_config_store() -> None:
-    """Test config store."""
-    # Arrange & Act
-    config_auto_memory = SchedulerConfig(apscheduler=APSchedulerConfig())
-    config_auto_postgres = SchedulerConfig(
-        apscheduler=APSchedulerConfig(
-            postgres=PostgresConfig(
-                host="localhost",
-                dbname="test",
-                username="test",
-                password=SecretStr("test"),
-            )
-        )
-    )
-
-    # Assert
-    assert isinstance(config_auto_memory.apscheduler, APSchedulerConfig)
-    assert isinstance(config_auto_postgres.apscheduler, APSchedulerConfig)
-
-
 def test_config_default() -> None:
-    """Test create config from environment variables."""
+    """Test create scheduler config from environment variables."""
     # Arrange
     expected_config = SchedulerConfig()
 
     # Act
-    config = get_config_from_env_vars()
+    config = SchedulerEnvConfig()
 
     # Assert
     assert config.model_dump() == expected_config.model_dump()
 
 
-def test_config_postgres(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Test create config from environment variables with PostgreSQL."""
+@pytest.mark.parametrize("username", ["USER", "USERNAME"])
+def test_postgres_env_config(monkeypatch: pytest.MonkeyPatch, postgres_config: PostgresConfig, username: str) -> None:
+    """Test create postgres config from environment variables."""
     # Arrange
-    expected_config = SchedulerConfig(
-        apscheduler=APSchedulerConfig(
-            postgres=PostgresConfig(
-                host="localhost",
-                dbname="test",
-                username="test",
-                password=SecretStr("test"),
-            )
-        )
-    )
-    monkeypatch.setenv("POSTGRES_HOST", "localhost")
-    monkeypatch.setenv("POSTGRES_DB", "test")
-    monkeypatch.setenv("POSTGRES_USER", "test")
-    monkeypatch.setenv("POSTGRES_PASSWORD", "test")
+    monkeypatch.setenv("POSTGRES_HOST", postgres_config.host)
+    monkeypatch.setenv("POSTGRES_DB", postgres_config.db)
+    monkeypatch.setenv(f"POSTGRES_{username}", postgres_config.username)
+    monkeypatch.setenv("POSTGRES_PASSWORD", postgres_config.password.get_secret_value())
 
     # Act
-    config = get_config_from_env_vars()
+    config = PostgresEnvConfig()
 
     # Assert
-    assert config.model_dump() == expected_config.model_dump()
+    assert config.model_dump() == postgres_config.model_dump()
 
 
-def test_config_redis(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Test create config from environment variables with Redis."""
+def test_redis_config(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test create redis config from environment variables."""
     # Arrange
-    expected_config = SchedulerConfig(
-        apscheduler=APSchedulerConfig(
-            redis=RedisConfig(host="localhost", username="test", password=SecretStr("test")),
-        )
-    )
+    expected_config = RedisConfig(host="localhost", username="test", password=SecretStr("test"))
     monkeypatch.setenv("REDIS_HOST", "localhost")
     monkeypatch.setenv("REDIS_USER", "test")
     monkeypatch.setenv("REDIS_PASSWORD", "test")
 
     # Act
-    config = get_config_from_env_vars()
+    config = RedisEnvConfig()
 
     # Assert
     assert config.model_dump() == expected_config.model_dump()
 
 
 def test_config_api(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Test create config from environment variables with API."""
+    """Test create api config from environment variables."""
     # Arrange
-    expected_config = SchedulerConfig(
-        api=APIConfig(
-            prefix="api/v2",
-            tags=["apscheduler", "scheduler"],
-            include_in_schema=False,
-            limit_default=50,
-            limit_max=500,
-        )
+    expected_config = SchedulerAPIEnvConfig(
+        prefix="api/v2",
+        tags=["apscheduler", "scheduler"],
+        include_in_schema=False,
+        limit_default=50,
+        limit_max=500,
     )
+
     monkeypatch.setenv("SCHEDULER_API_PREFIX", "api/v2")
     monkeypatch.setenv("SCHEDULER_API_TAGS", "apscheduler,scheduler")
     monkeypatch.setenv("SCHEDULER_API_INCLUDE_IN_SCHEMA", "false")
@@ -135,7 +74,7 @@ def test_config_api(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("SCHEDULER_API_LIMIT_MAX", "500")
 
     # Act
-    config = get_config_from_env_vars()
+    config = SchedulerAPIEnvConfig()
 
     # Assert
     assert config.model_dump() == expected_config.model_dump()
@@ -144,31 +83,11 @@ def test_config_api(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_config_api_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test create config from environment variables with API disabled."""
     # Arrange
-    expected_config = SchedulerConfig(api=APIConfig(enabled=False))
+    expected_config = SchedulerAPIEnvConfig(enabled=False)
     monkeypatch.setenv("SCHEDULER_API_ENABLED", "false")
 
     # Act
-    config = get_config_from_env_vars()
-
-    # Assert
-    assert config.model_dump() == expected_config.model_dump()
-
-
-def test_config_data_store_and_event_broker(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Test create config from environment variables with data store and event broker."""
-    # Arrange
-    expected_config = SchedulerConfig(
-        apscheduler=APSchedulerConfig(
-            data_store=DataStoreType.POSTGRES,
-            event_broker=EventBrokerType.POSTGRES,
-        )
-    )
-
-    monkeypatch.setenv("SCHEDULER_EVENT_BROKER", "postgres")
-    monkeypatch.setenv("SCHEDULER_DATA_STORE", "postgres")
-
-    # Act
-    config = get_config_from_env_vars()
+    config = SchedulerAPIEnvConfig()
 
     # Assert
     assert config.model_dump() == expected_config.model_dump()

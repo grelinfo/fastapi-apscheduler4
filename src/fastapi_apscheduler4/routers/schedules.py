@@ -8,7 +8,7 @@ import apscheduler as aps
 from fastapi import APIRouter, Query, Response, status
 
 from fastapi_apscheduler4 import logger
-from fastapi_apscheduler4.config import APIConfig
+from fastapi_apscheduler4.config import SchedulerAPIConfig
 from fastapi_apscheduler4.errors import DeleteNotAllowedAPIError, NotFoundAPIError, UnexpectedAPIError
 from fastapi_apscheduler4.routers.deps import LimitOffsetQueryParams
 from fastapi_apscheduler4.schemas import SCHEDULE_PREFIX, Schedule
@@ -59,7 +59,7 @@ class SchedulesAPIRouter(APIRouter):
         )
 
     @classmethod
-    def from_config(cls, apscheduler: aps.AsyncScheduler, config: APIConfig) -> SchedulesAPIRouter:
+    def from_config(cls, apscheduler: aps.AsyncScheduler, config: SchedulerAPIConfig) -> SchedulesAPIRouter:
         """Create an API router from the configuration."""
         return cls(
             apscheduler=apscheduler,

@@ -58,15 +58,15 @@ class ConfigError(FastAPIAPScheduler4Error):
     """
 
 
-class InvalidConfigError(ConfigError):
-    """Invalid Configuration Error.
+class ConfigNotFoundError(ConfigError):
+    """Config Not Found Error.
 
-    Raised when the configuration is missing.
+    Raised when a config is missing.
     """
 
-    def __init__(self, loc: str, detail: str) -> None:
+    def __init__(self, config: str, detail: str) -> None:
         """Initialize the error."""
-        super().__init__(f"Invalid configuration at {loc}: {detail}")
+        super().__init__(f"Missing {config} config: {detail}")
 
 
 class ScheduleAlreadyExistsError(FastAPIAPScheduler4Error, ValueError):
