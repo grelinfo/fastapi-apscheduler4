@@ -1,12 +1,10 @@
 """Test Scheduler API Router."""
 
-import pytest
 from apscheduler.triggers.combining import OrTrigger
 from apscheduler.triggers.interval import IntervalTrigger as APSIntervalTrigger
 from fastapi import FastAPI, status
 from fastapi.testclient import TestClient
 from fastapi_apscheduler4.app import SchedulerApp
-from fastapi_apscheduler4.config import SchedulerConfig
 from fastapi_apscheduler4.schemas import (
     CalendarIntervalTrigger,
     CronTrigger,
@@ -38,21 +36,15 @@ def echo_test4() -> None:
     echo("test4")
 
 
-@pytest.fixture()
-def config() -> SchedulerConfig:
-    """Get Config."""
-    return SchedulerConfig()  # pyright: ignore[reportCallIssue]
-
-
-def test_schedules_api_router(config: SchedulerConfig) -> None:
+def test_schedules_api_router() -> None:
     """Test schedules API router."""
     # Arrange
-    scheduler_app = SchedulerApp(config)
-    scheduler_app._scheduler.interval(hours=1)(echo_test1)
-    scheduler_app._scheduler.cron(day_of_week=1)(echo_test2)
-    scheduler_app._scheduler.calendar_interval(days=1)(echo_test3)
+    scheduler_app = SchedulerApp()
+    scheduler_app.interval(hours=1)(echo_test1)
+    scheduler_app.cron(day_of_week=1)(echo_test2)
+    scheduler_app.calendar_interval(days=1)(echo_test3)
     unknown_trigger = OrTrigger([APSIntervalTrigger(seconds=1), APSIntervalTrigger(minutes=1)])
-    scheduler_app._scheduler.schedules.append((echo_test4, unknown_trigger))
+    scheduler_app.schedules.append((echo_test4, unknown_trigger))
     expected_schedules_count = 4
 
     app = FastAPI(lifespan=scheduler_app.lifespan)
@@ -60,8 +52,7 @@ def test_schedules_api_router(config: SchedulerConfig) -> None:
 
     # Act
     with TestClient(app) as client:
-        assert config.api
-        response = client.get(config.api.prefix + "/schedules")
+        response = client.get(scheduler_app.api.prefix + "/schedules")
     response.raise_for_status()
     schedules = TypeAdapter(list[Schedule]).validate_json(response.text)
 

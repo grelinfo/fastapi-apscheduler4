@@ -71,6 +71,7 @@ dev-dependencies = [
     "mdx-include>=1.4.2",
     "pygments>=2.18.0",
     "testcontainers[postgres]>=4.5.1",
+    "ruff>=0.5.4", # Please align with rye ruff version
 ]
 
 [tool.hatch.metadata]

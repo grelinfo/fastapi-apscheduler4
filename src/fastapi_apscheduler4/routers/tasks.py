@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 import apscheduler as aps
 from fastapi import APIRouter, Response
 
-from fastapi_apscheduler4.config import APIConfig
+from fastapi_apscheduler4.config import SchedulerAPIConfig
 from fastapi_apscheduler4.errors import NotFoundAPIError, UnexpectedAPIError
 from fastapi_apscheduler4.routers.deps import LimitOffsetQueryParams
 from fastapi_apscheduler4.schemas import Task
@@ -52,7 +52,7 @@ class TasksAPIRouter(APIRouter):
         )
 
     @classmethod
-    def from_config(cls, apscheduler: aps.AsyncScheduler, config: APIConfig) -> TasksAPIRouter:
+    def from_config(cls, apscheduler: aps.AsyncScheduler, config: SchedulerAPIConfig) -> TasksAPIRouter:
         """Create an API router from the configuration."""
         return cls(
             apscheduler=apscheduler,

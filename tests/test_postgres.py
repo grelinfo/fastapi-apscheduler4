@@ -42,7 +42,7 @@ def test_app_postgres(
     # Arrange
 
     scheduler_app = SchedulerApp()
-    scheduler_app._scheduler.interval(seconds=1)(echo_test1)
+    scheduler_app.interval(seconds=1)(echo_test1)
 
     app = FastAPI(lifespan=scheduler_app.lifespan)
     app.add_route("/", route_test, methods=["GET"])
