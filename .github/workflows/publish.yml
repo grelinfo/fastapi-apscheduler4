@@ -28,4 +28,4 @@ jobs:
     - name: Git Fetch Docs
       run: git fetch origin gh-pages --depth=1
     - name: Publish Docs
-      run: rye run mike deploy --push ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} latest
+      run: rye run mike deploy --push --update-aliases ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} latest
