@@ -14,7 +14,7 @@ jobs:
         git config user.name "${GITHUB_ACTOR}"
         git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
     - name: Install Rye
-      uses: eifinger/setup-rye@v3
+      uses: eifinger/setup-rye@v4
     - name: Sync Rye
       run: rye sync
     - name: Bump version
