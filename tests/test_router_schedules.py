@@ -4,6 +4,9 @@ from apscheduler.triggers.combining import OrTrigger
 from apscheduler.triggers.interval import IntervalTrigger as APSIntervalTrigger
 from fastapi import FastAPI, status
 from fastapi.testclient import TestClient
+from pydantic import TypeAdapter
+from typer import echo
+
 from fastapi_apscheduler4.app import SchedulerApp
 from fastapi_apscheduler4.schemas import (
     CalendarIntervalTrigger,
@@ -12,8 +15,6 @@ from fastapi_apscheduler4.schemas import (
     Schedule,
     UnknownTrigger,
 )
-from pydantic import TypeAdapter
-from typer import echo
 
 
 def echo_test1() -> None:

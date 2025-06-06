@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from pydantic import SecretStr
+
 from fastapi_apscheduler4 import SchedulerConfig
 from fastapi_apscheduler4.app import SchedulerApp
 from fastapi_apscheduler4.config import (
@@ -8,7 +10,6 @@ from fastapi_apscheduler4.config import (
     RedisConfig,
     SchedulerAPIConfig,
 )
-from pydantic import SecretStr
 
 scheduler_config = SchedulerConfig(
     auto_start=True,

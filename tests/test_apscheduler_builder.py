@@ -1,6 +1,7 @@
 """Test APScheduler Builder."""
 
 import pytest
+
 from fastapi_apscheduler4.apscheduler_builder import APSSchedulerBuilder
 from fastapi_apscheduler4.config import (
     DataStoreType,

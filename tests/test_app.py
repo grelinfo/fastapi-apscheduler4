@@ -10,6 +10,8 @@ from apscheduler.eventbrokers.redis import RedisEventBroker
 from fastapi import FastAPI, Request, status
 from fastapi.responses import PlainTextResponse
 from fastapi.testclient import TestClient
+from typer import echo
+
 from fastapi_apscheduler4.app import SchedulerApp
 from fastapi_apscheduler4.config import (
     DataStoreType,
@@ -20,7 +22,6 @@ from fastapi_apscheduler4.config import (
     SchedulerConfig,
 )
 from fastapi_apscheduler4.errors import AlreadySetupError, ConfigNotFoundError
-from typer import echo
 
 
 async def route_test(request: Request) -> PlainTextResponse:  # noqa: ARG001

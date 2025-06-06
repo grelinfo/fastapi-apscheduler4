@@ -2,6 +2,7 @@
 
 import pytest
 from apscheduler.triggers.interval import IntervalTrigger as APSIntervalTrigger
+
 from fastapi_apscheduler4.errors import ScheduleAlreadyExistsError
 from fastapi_apscheduler4.scheduler import Scheduler
 

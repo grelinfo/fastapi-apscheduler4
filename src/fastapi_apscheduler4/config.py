@@ -2,7 +2,7 @@
 
 import os
 from enum import Enum
-from typing import Annotated
+from typing import Annotated, cast
 
 from pydantic import (
     AliasChoices,
@@ -84,13 +84,16 @@ class PostgresConfig(_BaseConfig):
 
     def get_postgres_dsn(self) -> PostgresDsn:
         """Get Postgres URL."""
-        return MultiHostUrl.build(
-            scheme="postgresql+asyncpg",
-            username=self.username,
-            password=self.password.get_secret_value(),
-            host=self.host,
-            port=self.port,
-            path=self.db,
+        return cast(
+            "PostgresDsn",
+            MultiHostUrl.build(
+                scheme="postgresql+asyncpg",
+                username=self.username,
+                password=self.password.get_secret_value(),
+                host=self.host,
+                port=self.port,
+                path=self.db,
+            ),
         )
 
     def get_postgres_url(self) -> str:
@@ -109,13 +112,16 @@ class RedisConfig(_BaseConfig):
 
     def get_redis_dsn(self) -> RedisDsn:
         """Get the Redis URL."""
-        return Url.build(
-            scheme="redis",
-            username=self.username,
-            password=self.password.get_secret_value(),
-            host=self.host,
-            port=self.port,
-            path=str(self.db),
+        return cast(
+            "RedisDsn",
+            Url.build(
+                scheme="redis",
+                username=self.username,
+                password=self.password.get_secret_value(),
+                host=self.host,
+                port=self.port,
+                path=str(self.db),
+            ),
         )
 
     def get_redis_url(self) -> str:
@@ -147,7 +153,7 @@ class RedisEnvConfig(RedisConfig, _BaseEnvConfig):
     Accept both `REDIS_USER` and `REDIS_USERNAME` environment variables for the username.
     """
 
-    model_config = SettingsConfigDict(env_prefix="REDIS_")
+    model_config = SettingsConfigDict(env_prefix="REDIS_", validate_by_name=True)
 
     username: str = Field(validation_alias=AliasChoices("REDIS_USER", "REDIS_USERNAME"))
 
@@ -158,7 +164,7 @@ class PostgresEnvConfig(PostgresConfig, _BaseEnvConfig):
     Accept both `POSTGRES_USER` and `POSTGRES_USERNAME` environment variables for the username.
     """
 
-    model_config = SettingsConfigDict(env_prefix="POSTGRES_")
+    model_config = SettingsConfigDict(env_prefix="POSTGRES_", validate_by_name=True)
 
     username: str = Field(validation_alias=AliasChoices("POSTGRES_USER", "POSTGRES_USERNAME"))
 
