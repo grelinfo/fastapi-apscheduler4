@@ -1,12 +1,12 @@
 [project]
 name = "fastapi-apscheduler4"
-version = "0.0.2"
 description = "FastAPI-APScheduler4 is a simple scheduled task manager for FastAPI based on APScheduler."
 authors = [
   { name = "Loïc Gremaud", email = "grelinfo@gmail.com"}
 ]
 license = "MIT"
 readme = "README.md"
+version = "0.3.0"
 
 classifiers = [
     "Intended Audience :: Information Technology",
@@ -49,13 +49,8 @@ Homepage = "https://grelinfo.github.io/fastapi-apscheduler4/"
 Repository = "https://github.com/grelinfo/fastapi-apscheduler4.git"
 Issues = "https://github.com/grelinfo/fastapi-apscheduler4/issues"
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.rye]
-managed = true
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "mypy>=1.0.0",
     "pytest>=8.0.0",
     "pytest-cov>=5.0.0",
@@ -76,8 +71,13 @@ dev-dependencies = [
     "typer>=0.12.5",
 ]
 
-[tool.hatch.metadata]
-allow-direct-references = true
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+skip-excluded-dirs = true
+exclude = ["/tests", "/docs"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/fastapi_apscheduler4"]
