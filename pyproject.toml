@@ -88,6 +88,9 @@ addopts = """
   --strict-markers
   --basetemp=.pytest_tmp/
 """
+markers = """
+  integration: mark test as an integration test
+"""
 
 testpaths = "tests"
 

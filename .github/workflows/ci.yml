@@ -36,6 +36,7 @@ jobs:
     runs-on: "ubuntu-latest"
     permissions:
       contents: read
+    needs: lint
     strategy:
       fail-fast: true
       matrix:
@@ -44,6 +45,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
 
       - name: Install uv
         uses: astral-sh/setup-uv@v6
@@ -70,10 +76,12 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Run integration tests
+        id: integration_tests
         run: pytest -x -m integration --cov --junitxml=junit.xml -o junit_family=legacy
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
+        if: ${{ steps.integration_tests.outputs.exit_code != 0 }}
         with:
           flags: "${{ matrix.python }},integration"
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -83,4 +91,17 @@ jobs:
         with:
           flags: "${{ matrix.python }},integration"
           token: ${{ secrets.CODECOV_TOKEN }}
-      
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Build package
+        run: uv build
