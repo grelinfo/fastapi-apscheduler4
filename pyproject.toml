@@ -1,46 +1,45 @@
 [project]
 name = "fastapi-apscheduler4"
 description = "FastAPI-APScheduler4 is a simple scheduled task manager for FastAPI based on APScheduler."
-authors = [
-  { name = "Loïc Gremaud", email = "grelinfo@gmail.com"}
-]
+authors = [{ name = "Loïc Gremaud", email = "grelinfo@gmail.com" }]
 license = "MIT"
 readme = "README.md"
 version = "0.3.0"
 
 classifiers = [
-    "Intended Audience :: Information Technology",
-    "Intended Audience :: System Administrators",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python",
-    "Topic :: Internet",
-    "Topic :: Software Development :: Libraries :: Application Frameworks",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Software Development",
-    "Typing :: Typed",
-    "Development Status :: 1 - Planning",
-    "Environment :: Web Environment",
-    "Framework :: AsyncIO",
-    "Framework :: FastAPI",
-    "Framework :: Pydantic",
-    "Framework :: Pydantic :: 2",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
-    "Topic :: Internet :: WWW/HTTP",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: System Administrators",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python",
+  "Topic :: Internet",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development",
+  "Typing :: Typed",
+  "Development Status :: 1 - Planning",
+  "Environment :: Web Environment",
+  "Framework :: AsyncIO",
+  "Framework :: FastAPI",
+  "Framework :: Pydantic",
+  "Framework :: Pydantic :: 2",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+  "Topic :: Internet :: WWW/HTTP",
 ]
 
 requires-python = ">= 3.10"
 dependencies = [
-    "fastapi>=0.100.0",
-    "apscheduler==4.0.0a5",
-    "pydantic-settings>=2.0.0",
+  "fastapi>=0.100.0",
+  "apscheduler==4.0.0a5",
+  "pydantic-settings>=2.0.0",
 ]
 
 [project.urls]
@@ -51,24 +50,24 @@ Issues = "https://github.com/grelinfo/fastapi-apscheduler4/issues"
 
 [dependency-groups]
 dev = [
-    "mypy>=1.0.0",
-    "pytest>=8.0.0",
-    "pytest-cov>=5.0.0",
-    "pytest-mock>=3.0.0",
-    "pre-commit>=3.0.0",
-    "pre-commit-hooks>=4.0.0",
-    "sqlalchemy>=2.0.0",
-    "asyncpg>=0.20.0",
-    "redis>=5.0.0",
-    "mkdocs>=1.6.0",
-    "mkdocs-material>=9.5.25",
-    "mike>=2.1.1",
-    "mdx-include>=1.4.2",
-    "pygments>=2.18.0",
-    "testcontainers[postgres]>=4.5.1",
-    "ruff>=0.5.4",
-    "httpx>=0.27.0",
-    "typer>=0.12.5",
+  "mypy>=1.0.0",
+  "pytest>=8.0.0",
+  "pytest-cov>=5.0.0",
+  "pytest-mock>=3.0.0",
+  "pre-commit>=3.0.0",
+  "pre-commit-hooks>=4.0.0",
+  "sqlalchemy>=2.0.0",
+  "asyncpg>=0.20.0",
+  "redis>=5.0.0",
+  "mkdocs>=1.6.0",
+  "mkdocs-material>=9.5.25",
+  "mike>=2.1.1",
+  "mdx-include>=1.4.2",
+  "pygments>=2.18.0",
+  "testcontainers[postgres]>=4.5.1",
+  "ruff>=0.5.4",
+  "httpx>=0.27.0",
+  "typer>=0.12.5",
 ]
 
 [build-system]
@@ -85,9 +84,6 @@ packages = ["src/fastapi_apscheduler4"]
 
 [tool.pytest.ini_options]
 addopts = """
-  --cov=src
-  --cov-report term:skip-covered
-  --cov-report xml:coverage.xml
   --strict-config
   --strict-markers
   --basetemp=.pytest_tmp/
@@ -95,18 +91,17 @@ addopts = """
 
 testpaths = "tests"
 
+[tool.coverage.paths]
+source = ["src/"]
+
 [tool.coverage.report]
 sort = "Cover"
-exclude_also = [
-    "if TYPE_CHECKING:",
-    "assert_never.*",
-    ]
+skip_covered = true
+exclude_also = ["if TYPE_CHECKING:", "assert_never.*"]
 
 [tool.mypy]
 strict = true
-plugins = [
-  "pydantic.mypy"
-]
+plugins = ["pydantic.mypy"]
 
 follow_imports = "silent"
 warn_redundant_casts = true
@@ -136,26 +131,26 @@ ignore = [
   "ANN101", # missing-type-self
   "ANN102", # missing-type-cls
   "COM812", # missing-trailing-comma
-  "D104", # undocumented-public-package
+  "D104",   # undocumented-public-package
   "ISC001", # single-line-implicit-string-concatenation
-  "EM101", # raw-string-in-exception
+  "EM101",  # raw-string-in-exception
 
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "docs/*" = [
-  "D100",  # undocumented-public-module
-  "D103",  # undocumented-public-function
-  "INP001",# implicit-namespace-package
-  "T201",  # print
+  "D100",   # undocumented-public-module
+  "D103",   # undocumented-public-function
+  "INP001", # implicit-namespace-package
+  "T201",   # print
 ]
 "tests/*" = [
-  "S101", # assert
+  "S101",   # assert
   "SLF001", # private-member-access
   "FBT001", # boolean-type-hint-positional-argument
 ]
 "**/router*" = [
-  "TCH001" # typing-only-first-party-import
+  "TCH001", # typing-only-first-party-import
 ]
 
 [tool.ruff.lint.pydocstyle]
@@ -171,7 +166,7 @@ keep-runtime-typing = true
 [tool.ruff.lint.flake8-type-checking]
 runtime-evaluated-base-classes = [
   "pydantic.BaseModel",
-  "pydantic_settings.BaseSettings"
+  "pydantic_settings.BaseSettings",
 ]
 
 [tool.ruff.lint.flake8-builtins]

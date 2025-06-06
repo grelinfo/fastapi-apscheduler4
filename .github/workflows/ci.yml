@@ -41,9 +41,6 @@ jobs:
       matrix:
         python: ["3.10", "3.11", "3.12", "3.13"]
 
-    env:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -58,23 +55,32 @@ jobs:
         run: uv sync --all-extras --python ${{ matrix.python }}
 
       - name: Run unit tests
-        run: pytest -x
+        run: pytest -x -m "not integration" --cov --junitxml=junit.xml -o junit_family=legacy
 
-      - name: Upload unit test coverage to Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-          flags: unittests
+          flags: "${{ matrix.python }},unit"
+          token: ${{ secrets.CODECOV_TOKEN }}
+          
+      - name: Upload test results to Codecov
+        uses: codecov/test-results-action@v1
+        with:
+          flags: "${{ matrix.python }},unit"
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Run integration tests
-        run: pytest -x -m integration 
+        run: pytest -x -m integration --cov --junitxml=junit.xml -o junit_family=legacy
 
-      - name: Upload integration test coverage to Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-          flags: integration
+          flags: "${{ matrix.python }},integration"
+          token: ${{ secrets.CODECOV_TOKEN }}
 
+      - name: Upload test results to Codecov
+        uses: codecov/test-results-action@v1
+        with:
+          flags: "${{ matrix.python }},integration"
+          token: ${{ secrets.CODECOV_TOKEN }}
       
-
-
-
-
