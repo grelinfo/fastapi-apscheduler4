@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+    UV_FROZEN: 1
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          activate-environment: true
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Run Mypy
+        run: mypy .
+
+  test:
+    name: Test Python ${{ matrix.python }}
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: true
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+
+    env:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          activate-environment: true
+
+      - name: Install dependencies
+        run: uv sync --all-extras --python ${{ matrix.python }}
+
+      - name: Run unit tests
+        run: pytest -x
+
+      - name: Upload unit test coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          flags: unittests
+
+      - name: Run integration tests
+        run: pytest -x -m integration 
+
+      - name: Upload integration test coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          flags: integration
+
+      
+
+
+
+
