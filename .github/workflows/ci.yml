@@ -68,7 +68,7 @@ jobs:
         with:
           flags: "${{ matrix.python }},unit"
           token: ${{ secrets.CODECOV_TOKEN }}
-          
+
       - name: Upload test results to Codecov
         uses: codecov/test-results-action@v1
         with:
@@ -93,6 +93,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   build:
+    name: Build package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

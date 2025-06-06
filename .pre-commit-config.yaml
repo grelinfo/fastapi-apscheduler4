@@ -41,21 +41,21 @@ repos:
       - id: pytest-unit
         name: pytest-unit
         description: "Run 'pytest' for unit testing"
-        entry: uv run pytest -m "not integration"
+        entry: uv run pytest -m "not integration" --cov
         language: system
         pass_filenames: false
 
       - id: pytest-integration
         name: pytest-integration
         description: "Run 'pytest' for integration testing"
-        entry: uv run pytest -m "integration" --cov-append
+        entry: uv run pytest -m "integration" --cov --cov-append
         language: system
         pass_filenames: false
 
       - id: coverage-report
         name: coverage-report
         description: "Generate coverage report"
-        entry: uv run coverage report --fail-under=90
+        entry: uv run coverage report --fail-under=95
         language: system
         pass_filenames: false
 
