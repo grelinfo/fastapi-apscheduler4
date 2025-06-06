@@ -2,10 +2,11 @@
 
 import pytest
 from fastapi import Response, status
+from pydantic import BaseModel
+
 from fastapi_apscheduler4.dtos import LimitOffset
 from fastapi_apscheduler4.errors import DeleteNotAllowedAPIError, NotFoundAPIError, UnexpectedAPIError
 from fastapi_apscheduler4.utils import paginate, safe_error
-from pydantic import BaseModel
 
 
 def test_safe_error_decorator() -> None:

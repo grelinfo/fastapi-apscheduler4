@@ -1,6 +1,8 @@
 """Test configuration."""
 
 import pytest
+from pydantic import SecretStr
+
 from fastapi_apscheduler4.config import (
     PostgresConfig,
     PostgresEnvConfig,
@@ -10,7 +12,6 @@ from fastapi_apscheduler4.config import (
     SchedulerConfig,
     SchedulerEnvConfig,
 )
-from pydantic import SecretStr
 
 
 def test_config_default() -> None:

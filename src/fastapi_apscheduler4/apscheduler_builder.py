@@ -35,7 +35,7 @@ class APSSchedulerBuilder(BaseModel):
     redis: RedisConfig | None = Field(default_factory=RedisEnvConfig.create_if_available)
     postgres: PostgresConfig | None = Field(default_factory=PostgresEnvConfig.create_if_available)
 
-    @computed_field()  # type: ignore[misc]
+    @computed_field()  # type: ignore[prop-decorator]
     @cached_property
     def computed_data_store_type(self) -> DataStoreType:
         """Computed data store type."""
@@ -47,7 +47,7 @@ class APSSchedulerBuilder(BaseModel):
             return DataStoreType.POSTGRES
         return DataStoreType.MEMORY
 
-    @computed_field()  # type: ignore[misc]
+    @computed_field()  # type: ignore[prop-decorator]
     @cached_property
     def computed_event_broker_type(self) -> EventBrokerType:
         """Computed event broker type."""

@@ -26,6 +26,6 @@ The key feature are:
 ## 🚧 WORK IN PROGRESS 🚧
 
 The project is still in development and not ready for production. The API may change in the future.
-Specifically, because APScheduler main dependancy is not yet released and ready for production too.
+Specifically, because APScheduler main dependency is not yet released and ready for production too.
 
 Contributions are welcome! Feel free to open an issue or a pull request.

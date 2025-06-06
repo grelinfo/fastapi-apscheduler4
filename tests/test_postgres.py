@@ -7,9 +7,10 @@ from apscheduler import RunState
 from fastapi import FastAPI, Request, status
 from fastapi.responses import PlainTextResponse
 from fastapi.testclient import TestClient
-from fastapi_apscheduler4 import SchedulerApp
 from testcontainers.postgres import PostgresContainer
 from typer import echo
+
+from fastapi_apscheduler4 import SchedulerApp
 
 
 async def route_test(request: Request) -> PlainTextResponse:  # noqa: ARG001
@@ -22,7 +23,7 @@ def echo_test1() -> None:
     echo("test")
 
 
-@pytest.fixture()
+@pytest.fixture
 def postgres_container(monkeypatch: pytest.MonkeyPatch) -> Generator[PostgresContainer, None, None]:
     """Create a Postgres container."""
     monkeypatch.setenv("POSTGRES_HOST", "localhost")
