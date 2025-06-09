@@ -38,7 +38,7 @@ classifiers = [
 requires-python = ">= 3.10"
 dependencies = [
   "fastapi>=0.100.0",
-  "apscheduler==4.0.0a5",
+  "apscheduler==4.0.0a6",
   "pydantic-settings>=2.0.0",
 ]
 

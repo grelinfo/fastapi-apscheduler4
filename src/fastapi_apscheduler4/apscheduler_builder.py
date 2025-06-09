@@ -90,7 +90,7 @@ class APSSchedulerBuilder(BaseModel):
             if not self.postgres:
                 raise ConfigNotFoundError("postgres", "Required for Postgres event broker.")
 
-            return AsyncpgEventBroker.from_dsn(self.postgres.get_postgres_url())
+            return AsyncpgEventBroker(dsn=self.postgres.get_postgres_url())
 
         if broker_type is EventBrokerType.MEMORY:
             from apscheduler.eventbrokers.local import LocalEventBroker
