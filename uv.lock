@@ -354,7 +354,7 @@ wheels = [
 
 [[package]]
 name = "fastapi-apscheduler4"
-version = "0.3.0"
+version = "0.0.0.dev0"
 source = { editable = "." }
 dependencies = [
     { name = "apscheduler" },
@@ -366,14 +366,9 @@ dependencies = [
 dev = [
     { name = "asyncpg" },
     { name = "httpx" },
-    { name = "mdx-include" },
-    { name = "mike" },
-    { name = "mkdocs" },
-    { name = "mkdocs-material" },
     { name = "mypy" },
     { name = "pre-commit" },
     { name = "pre-commit-hooks" },
-    { name = "pygments" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-mock" },
@@ -382,6 +377,13 @@ dev = [
     { name = "sqlalchemy" },
     { name = "testcontainers" },
     { name = "typer" },
+]
+docs = [
+    { name = "mdx-include" },
+    { name = "mike" },
+    { name = "mkdocs" },
+    { name = "mkdocs-material" },
+    { name = "pygments" },
 ]
 
 [package.metadata]
@@ -395,14 +397,9 @@ requires-dist = [
 dev = [
     { name = "asyncpg", specifier = ">=0.20.0" },
     { name = "httpx", specifier = ">=0.27.0" },
-    { name = "mdx-include", specifier = ">=1.4.2" },
-    { name = "mike", specifier = ">=2.1.1" },
-    { name = "mkdocs", specifier = ">=1.6.0" },
-    { name = "mkdocs-material", specifier = ">=9.5.25" },
     { name = "mypy", specifier = ">=1.0.0" },
     { name = "pre-commit", specifier = ">=3.0.0" },
     { name = "pre-commit-hooks", specifier = ">=4.0.0" },
-    { name = "pygments", specifier = ">=2.18.0" },
     { name = "pytest", specifier = ">=8.0.0" },
     { name = "pytest-cov", specifier = ">=5.0.0" },
     { name = "pytest-mock", specifier = ">=3.0.0" },
@@ -411,6 +408,13 @@ dev = [
     { name = "sqlalchemy", specifier = ">=2.0.0" },
     { name = "testcontainers", extras = ["postgres"], specifier = ">=4.5.1" },
     { name = "typer", specifier = ">=0.12.5" },
+]
+docs = [
+    { name = "mdx-include", specifier = ">=1.4.2" },
+    { name = "mike", specifier = ">=2.1.1" },
+    { name = "mkdocs", specifier = ">=1.6.0" },
+    { name = "mkdocs-material", specifier = ">=9.5.25" },
+    { name = "pygments", specifier = ">=2.18.0" },
 ]
 
 [[package]]
