@@ -6,8 +6,9 @@ FastAPI-APScheduler4 is a simple scheduled task manager for FastAPI based on APS
 [![PyPI - License](https://img.shields.io/pypi/l/fastapi-apscheduler4)](https://pypi.org/project/fastapi-apscheduler4/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fastapi-apscheduler4)](https://pypi.org/project/fastapi-apscheduler4/)
 [![codecov](https://codecov.io/gh/grelinfo/fastapi-apscheduler4/branch/main/graph/badge.svg?token=UFQATSECSO)](https://codecov.io/gh/grelinfo/fastapi-apscheduler4)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/rye/main/artwork/badge.json)](https://rye.astral.sh)
+[![mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 
 ---
 
