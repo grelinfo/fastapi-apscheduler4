@@ -3,12 +3,6 @@ on:
   release:
     types: 
       - published
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to release'
-        required: true
-        type: string
 permissions:
   contents: read
 env:
@@ -27,7 +21,7 @@ jobs:
       with:
         enable-cache: true
     - name: Set Package Version
-      run: uv version ${{ github.event.release.tag_name || github.event.inputs.tag }}
+      run: uv version ${{ github.event.release.tag_name }}
     - name: Build Package
       run: uv build
     - name: Publish Package
