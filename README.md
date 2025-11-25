@@ -18,7 +18,7 @@ FastAPI-APScheduler4 is a simple scheduled task manager for FastAPI based on APS
 
 ---
 
-The key feature are:
+The key features are:
 
 * **Easy**: Just add a decorator to your function and it will be scheduled.
 * **No boilerplate**: Few lines of code to make it work.
