@@ -35,7 +35,7 @@ repos:
         entry: uv run mypy
         language: system
         types_or: [python, pyi]
-        args: ["--ignore-missing-imports", "--scripts-are-modules"]
+        args: []
         require_serial: true
 
       - id: pytest-unit

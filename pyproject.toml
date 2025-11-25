@@ -120,6 +120,7 @@ exclude_also = ["if TYPE_CHECKING:", "assert_never.*"]
 [tool.mypy]
 strict = true
 plugins = ["pydantic.mypy"]
+exclude = ["site/", "dist/", ".venv/"]
 
 follow_imports = "silent"
 warn_redundant_casts = true
