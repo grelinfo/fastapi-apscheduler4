@@ -43,7 +43,7 @@ def test_timezone_valid(timezone_value: TimeZoneName, expected: str) -> None:
     ],
     ids=["invalid_format", "not_a_timezone", "fake_city", "empty_string"],
 )
-def test_timezone_invalid(invalid_timezone: str) -> None:
+def test_timezone_invalid(invalid_timezone: TimeZoneName) -> None:
     """Test Timezone schema raises ValidationError for invalid timezones."""
     # Arrange & Act & Assert
     with pytest.raises(ValidationError) as exc_info:
