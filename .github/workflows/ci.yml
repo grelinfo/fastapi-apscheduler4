@@ -58,11 +58,9 @@ jobs:
           flags: "${{ matrix.python }},unit"
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Run Integration Tests
-        id: integration_tests
         run: pytest -x -m integration --cov --junitxml=junit.xml -o junit_family=legacy
       - name: Upload Integration Test Coverage to Codecov
         uses: codecov/codecov-action@v5
-        if: ${{ steps.integration_tests.outputs.exit_code != 0 }}
         with:
           flags: "${{ matrix.python }},integration"
           token: ${{ secrets.CODECOV_TOKEN }}
