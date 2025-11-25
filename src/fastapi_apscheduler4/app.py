@@ -155,7 +155,8 @@ class SchedulerApp(Scheduler):
         async with self.apscheduler:
             await self._clean_auto_schedules()
             await self._add_auto_schedules()
-            await self.apscheduler.start_in_background()
+            if self.scheduler.auto_start:
+                await self.apscheduler.start_in_background()
             yield
 
     async def _add_auto_schedules(self) -> None:
