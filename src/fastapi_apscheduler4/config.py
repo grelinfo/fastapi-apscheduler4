@@ -18,7 +18,7 @@ from pydantic_core import MultiHostUrl, Url
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing_extensions import Self
 
-from fastapi_apscheduler4.utils import transform_coma_separated_string_to_list
+from fastapi_apscheduler4.utils import transform_comma_separated_string_to_list
 
 
 class _BaseConfig(BaseModel):
@@ -143,7 +143,7 @@ class SchedulerAPIConfig(_BaseConfig):
 
     enabled: bool = True
     prefix: str = "/api/v1"
-    tags: Annotated[list[str | Enum] | None, BeforeValidator(transform_coma_separated_string_to_list)] = ["scheduler"]
+    tags: Annotated[list[str | Enum] | None, BeforeValidator(transform_comma_separated_string_to_list)] = ["scheduler"]
     include_in_schema: bool = True
 
 

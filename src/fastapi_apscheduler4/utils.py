@@ -54,11 +54,11 @@ def enforce_enum_name(value: Enum | T) -> str | T:
 
 
 @overload
-def transform_coma_separated_string_to_list(value: str) -> list[str]: ...
+def transform_comma_separated_string_to_list(value: str) -> list[str]: ...
 @overload
-def transform_coma_separated_string_to_list(value: T) -> list[str] | T: ...
-def transform_coma_separated_string_to_list(value: str | T) -> list[str] | T:
-    """Transform coma separated string to list."""
+def transform_comma_separated_string_to_list(value: T) -> list[str] | T: ...
+def transform_comma_separated_string_to_list(value: str | T) -> list[str] | T:
+    """Transform comma separated string to list."""
     if isinstance(value, str):
         return [v.strip() for v in value.split(",")]
     return value
