@@ -48,11 +48,13 @@ jobs:
       - name: Run Unit Tests
         run: pytest -x -m "not integration" --cov --junitxml=junit.xml -o junit_family=legacy
       - name: Upload Unit Test Coverage to Codecov
+        if: always()
         uses: codecov/codecov-action@v5
         with:
           flags: "${{ matrix.python }},unit"
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload Unit Test Results to Codecov
+        if: always()
         uses: codecov/test-results-action@v1
         with:
           flags: "${{ matrix.python }},unit"
@@ -60,11 +62,13 @@ jobs:
       - name: Run Integration Tests
         run: pytest -x -m integration --cov --junitxml=junit.xml -o junit_family=legacy
       - name: Upload Integration Test Coverage to Codecov
+        if: always()
         uses: codecov/codecov-action@v5
         with:
           flags: "${{ matrix.python }},integration"
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload Integration Test Results to Codecov
+        if: always()
         uses: codecov/test-results-action@v1
         with:
           flags: "${{ matrix.python }},integration"
