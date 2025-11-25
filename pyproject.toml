@@ -43,6 +43,15 @@ dependencies = [
   "pydantic-settings>=2.0.0",
 ]
 
+[project.optional-dependencies]
+postgres = [
+  "sqlalchemy>=2.0.0",
+  "asyncpg>=0.20.0",
+]
+redis = [
+  "redis>=5.0.0",
+]
+
 [project.urls]
 
 Homepage = "https://grelinfo.github.io/fastapi-apscheduler4/"
