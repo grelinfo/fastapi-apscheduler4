@@ -5,6 +5,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 from datetime import tzinfo
 from enum import Enum
+from collections.abc import Iterable as ABCIterable
 from typing import TYPE_CHECKING, ParamSpec, TypeVar, overload
 
 from fastapi import Response, status
@@ -32,12 +33,19 @@ def safe_error(
         default: Error to raise if a non expected error occurs.
         allow: Allowed error(s) to pass through.
     """
-    allow = [allow] if isinstance(allow, type) else allow or []
+    if allow is None:
+        allow_list: list[type[Exception]] = []
+    elif isinstance(allow, type):
+        allow_list = [allow]
+    elif isinstance(allow, ABCIterable):
+        allow_list = list(allow)
+    else:
+        allow_list = []
 
     try:
         yield
     except BaseException as error:
-        if not any(isinstance(error, allowed) for allowed in allow):
+        if not any(isinstance(error, allowed) for allowed in allow_list):
             raise default(error) from error
         raise
 
