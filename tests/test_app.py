@@ -1,4 +1,5 @@
 """Test FastAPI-APScheduler4 App."""
+# ruff: noqa: T201
 
 import pytest
 from apscheduler import RunState
@@ -10,7 +11,6 @@ from apscheduler.eventbrokers.redis import RedisEventBroker
 from fastapi import FastAPI, Request, status
 from fastapi.responses import PlainTextResponse
 from fastapi.testclient import TestClient
-from typer import echo
 
 from fastapi_apscheduler4.app import SchedulerApp
 from fastapi_apscheduler4.config import (
@@ -31,22 +31,22 @@ async def route_test(request: Request) -> PlainTextResponse:  # noqa: ARG001
 
 def echo_test1() -> None:
     """Test function 1."""
-    echo("test")
+    print("test")
 
 
 def echo_test2() -> None:
     """Test function 2."""
-    echo("test2")
+    print("test2")
 
 
 def echo_test3() -> None:
     """Test function 3."""
-    echo("test3")
+    print("test3")
 
 
 def echo_test4() -> None:
     """Test function 4."""
-    echo("test4")
+    print("test4")
 
 
 def test_app_lifespan(capsys: pytest.CaptureFixture[str]) -> None:

@@ -1,11 +1,11 @@
 """Test Scheduler API Router."""
+# ruff: noqa: T201
 
 from apscheduler.triggers.combining import OrTrigger
 from apscheduler.triggers.interval import IntervalTrigger as APSIntervalTrigger
 from fastapi import FastAPI, status
 from fastapi.testclient import TestClient
 from pydantic import TypeAdapter
-from typer import echo
 
 from fastapi_apscheduler4.app import SchedulerApp
 from fastapi_apscheduler4.schemas import (
@@ -19,22 +19,22 @@ from fastapi_apscheduler4.schemas import (
 
 def echo_test1() -> None:
     """Test function 1."""
-    echo("test")
+    print("test")
 
 
 def echo_test2() -> None:
     """Test function 2."""
-    echo("test2")
+    print("test2")
 
 
 def echo_test3() -> None:
     """Test function 3."""
-    echo("test3")
+    print("test3")
 
 
 def echo_test4() -> None:
     """Test function 4."""
-    echo("test4")
+    print("test4")
 
 
 def test_schedules_api_router() -> None:

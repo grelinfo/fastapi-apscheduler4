@@ -1,4 +1,5 @@
 """Test on Postgres with testcontainers."""
+# ruff: noqa: T201
 
 from collections.abc import Generator
 
@@ -8,7 +9,6 @@ from fastapi import FastAPI, Request, status
 from fastapi.responses import PlainTextResponse
 from fastapi.testclient import TestClient
 from testcontainers.postgres import PostgresContainer
-from typer import echo
 
 from fastapi_apscheduler4 import SchedulerApp
 
@@ -20,7 +20,7 @@ async def route_test(request: Request) -> PlainTextResponse:  # noqa: ARG001
 
 def echo_test1() -> None:
     """Test function 1."""
-    echo("test")
+    print("test")
 
 
 @pytest.fixture
