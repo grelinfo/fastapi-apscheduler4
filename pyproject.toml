@@ -4,7 +4,7 @@ description = "FastAPI-APScheduler4 is a simple scheduled task manager for FastA
 authors = [{ name = "Loïc Gremaud", email = "grelinfo@gmail.com" }]
 license = "MIT"
 readme = "README.md"
-version = "0.0.0.dev0" # Continuous development version 
+version = "0.0.0.dev0" # Continuous development version
 
 classifiers = [
   "Intended Audience :: Information Technology",
