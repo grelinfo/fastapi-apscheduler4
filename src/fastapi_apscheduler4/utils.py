@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable as ABCIterable
 from contextlib import contextmanager
 from datetime import tzinfo
 from enum import Enum
-from collections.abc import Iterable as ABCIterable
 from typing import TYPE_CHECKING, ParamSpec, TypeVar, overload
 
 from fastapi import Response, status
