@@ -488,7 +488,7 @@ docs = [
 
 [package.metadata]
 requires-dist = [
-    { name = "apscheduler", specifier = "==4.0.0a6" },
+    { name = "apscheduler", specifier = ">=4.0.0a6,<4.1.0" },
     { name = "asyncpg", marker = "extra == 'postgres'", specifier = ">=0.20.0" },
     { name = "fastapi", specifier = ">=0.100.0" },
     { name = "pydantic-extra-types", specifier = ">=2.10.6" },
