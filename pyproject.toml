@@ -41,6 +41,7 @@ dependencies = [
   "fastapi>=0.100.0",
   "apscheduler==4.0.0a6",
   "pydantic-settings>=2.0.0",
+  "pydantic-extra-types>=2.10.6",
 ]
 
 [project.optional-dependencies]

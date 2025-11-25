@@ -10,12 +10,13 @@ from enum import Enum
 from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, BeforeValidator, Discriminator, Tag
+from pydantic_extra_types.timezone_name import TimeZoneName as _TimeZoneName
 
 from fastapi_apscheduler4.utils import enforce_enum_name, transform_tzinfo_to_str
 
 SCHEDULE_PREFIX = "auto:"
 
-TimezoneFromTzinfo = Annotated[str, BeforeValidator(transform_tzinfo_to_str)]
+TimeZoneName = Annotated[_TimeZoneName, BeforeValidator(transform_tzinfo_to_str)]
 """Timezone in string format."""
 
 
@@ -74,7 +75,7 @@ class CalendarIntervalTrigger(BaseTrigger):
     second: int = 0
     start_date: date
     end_date: date | None = None
-    timezone: TimezoneFromTzinfo
+    timezone: TimeZoneName
 
 
 class IntervalTrigger(BaseTrigger):
@@ -104,7 +105,7 @@ class CronTrigger(BaseTrigger):
     second: int | str | None = None
     start_time: datetime
     end_time: datetime | None = None
-    timezone: TimezoneFromTzinfo
+    timezone: TimeZoneName
 
 
 class Schedule(BaseModel):
