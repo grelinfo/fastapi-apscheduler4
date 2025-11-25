@@ -21,11 +21,18 @@ jobs:
       with:
         enable-cache: true
     - name: Set Package Version
-      run: uv version ${{ github.event.release.tag_name }}
+      run: |
+        VERSION=${{ github.event.release.tag_name }}
+        # Remove 'v' prefix if present
+        VERSION=${VERSION#v}
+        # Update version in pyproject.toml
+        sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
+        echo "Updated version to $VERSION"
+        grep "^version" pyproject.toml
     - name: Build Package
       run: uv build
     - name: Publish Package
-      run: uv publish -t ${{ secrets.PYPI_TOKEN }}
+      uses: pypa/gh-action-pypi-publish@release/v1
   publish-docs:
     runs-on: ubuntu-latest
     permissions:

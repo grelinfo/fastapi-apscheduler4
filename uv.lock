@@ -452,6 +452,15 @@ dependencies = [
     { name = "pydantic-settings" },
 ]
 
+[package.optional-dependencies]
+postgres = [
+    { name = "asyncpg" },
+    { name = "sqlalchemy" },
+]
+redis = [
+    { name = "redis" },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "asyncpg" },
@@ -479,9 +488,13 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "apscheduler", specifier = "==4.0.0a6" },
+    { name = "asyncpg", marker = "extra == 'postgres'", specifier = ">=0.20.0" },
     { name = "fastapi", specifier = ">=0.100.0" },
     { name = "pydantic-settings", specifier = ">=2.0.0" },
+    { name = "redis", marker = "extra == 'redis'", specifier = ">=5.0.0" },
+    { name = "sqlalchemy", marker = "extra == 'postgres'", specifier = ">=2.0.0" },
 ]
+provides-extras = ["postgres", "redis"]
 
 [package.metadata.requires-dev]
 dev = [
