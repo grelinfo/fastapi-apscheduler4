@@ -41,7 +41,7 @@ class TasksAPIRouter(APIRouter):
         self.apscheduler = apscheduler
 
         self.add_api_route(
-            "/tasks", self.get_task, methods=["GET"], response_model=list[Task], response_model_exclude_none=True
+            "/tasks", self.list_tasks, methods=["GET"], response_model=list[Task], response_model_exclude_none=True
         )
         self.add_api_route(
             "/tasks/{id}",
