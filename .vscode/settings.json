@@ -23,9 +23,10 @@
       },
       "editor.defaultFormatter": "charliermarsh.ruff"
     },
-    "mypy-type-checker.importStrategy": "fromEnvironment",
+    "mypy-type-checker.ignorePatterns": ["**"],
     "python.testing.pytestArgs": [
       "--no-cov"
     ],
     "python.analysis.inlayHints.pytestParameters": true,
+    "python.languageServer": "None", // Covered by Astral ty extension
 }

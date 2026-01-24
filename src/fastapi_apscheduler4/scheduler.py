@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ParamSpec, TypeVar
+from typing import TYPE_CHECKING, ParamSpec, TypeVar, cast
 
 from apscheduler.triggers.calendarinterval import CalendarIntervalTrigger
 from apscheduler.triggers.cron import CronTrigger
@@ -13,7 +13,7 @@ from fastapi_apscheduler4.errors import ScheduleAlreadyExistsError
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from fastapi_apscheduler4.dtos import ScheduleType
+    from fastapi_apscheduler4.dtos import NamedCallable, ScheduleType
 
 P = ParamSpec("P")
 RT = TypeVar("RT")
@@ -145,7 +145,9 @@ class Scheduler:
         trigger: IntervalTrigger | CronTrigger | CalendarIntervalTrigger,
     ) -> None:
         """Add a schedule."""
+        # Cast func to NamedCallable since all Python functions have __name__
+        named_func = cast("NamedCallable", func)
         already_exists = any(func == schedule[0] for schedule in self._schedules)
         if already_exists:
-            raise ScheduleAlreadyExistsError(func)
-        self._schedules.append((func, trigger))
+            raise ScheduleAlreadyExistsError(named_func)
+        self._schedules.append((named_func, trigger))
