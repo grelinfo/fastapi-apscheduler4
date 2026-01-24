@@ -29,14 +29,12 @@ repos:
 
   - repo: local
     hooks:
-      - id: mypy
-        name: mypy
-        description: "Run 'mypy' for static type checking"
-        entry: uv run mypy
+      - id: ty
+        name: ty
+        description: "Run 'ty' for static type checking"
+        entry: uv run ty check
         language: system
-        types_or: [python, pyi]
-        args: []
-        require_serial: true
+        pass_filenames: false
 
       - id: pytest-unit
         name: pytest-unit
@@ -62,4 +60,4 @@ repos:
 ci:
   autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
   autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate
-  skip: [uv-lock, mypy, pytest-unit, pytest-integration, coverage-report]
+  skip: [uv-lock, ty, pytest-unit, pytest-integration, coverage-report]

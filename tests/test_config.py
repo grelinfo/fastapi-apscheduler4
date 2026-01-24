@@ -36,7 +36,7 @@ def test_postgres_env_config(monkeypatch: pytest.MonkeyPatch, postgres_config: P
     monkeypatch.setenv("POSTGRES_PASSWORD", postgres_config.password.get_secret_value())
 
     # Act
-    config = PostgresEnvConfig()
+    config = PostgresEnvConfig()  # ty: ignore[missing-argument]  # pydantic-settings fills from env
 
     # Assert
     assert config.model_dump() == postgres_config.model_dump()
@@ -51,7 +51,7 @@ def test_redis_config(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("REDIS_PASSWORD", "test")
 
     # Act
-    config = RedisEnvConfig()
+    config = RedisEnvConfig()  # ty: ignore[missing-argument]  # pydantic-settings fills from env
 
     # Assert
     assert config.model_dump() == expected_config.model_dump()

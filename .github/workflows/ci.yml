@@ -24,8 +24,8 @@ jobs:
           activate-environment: true
       - name: Install Dependencies
         run: uv sync
-      - name: Run Mypy
-        run: mypy .
+      - name: Run ty
+        run: ty check
   test:
     name: Test Python ${{ matrix.python }}
     runs-on: "ubuntu-latest"
