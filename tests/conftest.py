@@ -1,8 +1,10 @@
 """Tests Config."""
 
 import pytest
+from fastapi import FastAPI
 from pydantic import SecretStr
 
+from fastapi_apscheduler4.app import SchedulerApp
 from fastapi_apscheduler4.config import PostgresConfig, RedisConfig
 
 
@@ -32,3 +34,21 @@ def postgres_config() -> PostgresConfig:
         username="username",
         password=SecretStr("password"),
     )
+
+
+@pytest.fixture
+def scheduler_app() -> SchedulerApp:
+    """Create a scheduler app instance."""
+    return SchedulerApp()
+
+
+@pytest.fixture
+def fastapi_app(scheduler_app: SchedulerApp) -> FastAPI:
+    """Create a FastAPI app with scheduler lifespan."""
+    app = FastAPI(lifespan=scheduler_app.lifespan)
+    scheduler_app.setup(app)
+    return app
+
+
+def sample_task() -> None:
+    """Sample task function for testing."""

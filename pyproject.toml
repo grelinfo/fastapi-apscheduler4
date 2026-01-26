@@ -106,7 +106,9 @@ addopts = """
   --basetemp=.pytest_tmp/
 """
 markers = """
-  integration: mark test as an integration test
+  unit: Unit tests - fast, isolated, no external dependencies
+  integration: Integration tests - test component interactions (API layer, routers)
+  e2e: End-to-end tests - test complete workflows across multiple components
 """
 
 testpaths = "tests"

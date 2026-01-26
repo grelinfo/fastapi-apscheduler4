@@ -7,6 +7,7 @@ from fastapi_apscheduler4.errors import ScheduleAlreadyExistsError
 from fastapi_apscheduler4.scheduler import Scheduler
 
 
+@pytest.mark.unit
 def test_interval_decorator() -> None:
     """Test interval decorator."""
     # Arrange
@@ -38,6 +39,7 @@ def test_interval_decorator() -> None:
     assert scheduler2_trigger.minutes == 1
 
 
+@pytest.mark.unit
 def test_interval_decorator_multiple_error() -> None:
     """Test multiple decorators on the same function."""
     # Arrange

@@ -23,6 +23,7 @@ class SampleTimezone(BaseModel):
     ],
     ids=["europe_zurich", "america_new_york", "europe_paris", "asia_tokyo", "utc"],
 )
+@pytest.mark.unit
 def test_timezone_valid(timezone_value: TimeZoneName, expected: str) -> None:
     """Test Timezone schema with valid timezone values."""
     # Arrange & Act
@@ -43,6 +44,7 @@ def test_timezone_valid(timezone_value: TimeZoneName, expected: str) -> None:
     ],
     ids=["invalid_format", "not_a_timezone", "fake_city", "empty_string"],
 )
+@pytest.mark.unit
 def test_timezone_invalid(invalid_timezone: TimeZoneName) -> None:
     """Test Timezone schema raises ValidationError for invalid timezones."""
     # Arrange & Act & Assert
