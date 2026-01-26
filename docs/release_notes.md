@@ -1,5 +1,39 @@
 # Release Notes
 
+## 0.3.0
+
+### Features
+
+* 🦺 Add model validator to ensure pagination limits are respected
+* ✨ Add optional dependencies for PostgreSQL and Redis
+* 📌 Update apscheduler dependency to allow for minor version updates
+
+### Fixes
+
+* 🐛 Fix tasks router list endpoint calling wrong method
+* 🐛 Fix conditional auto-start for APScheduler in SchedulerApp
+* 🩹 Fix testcontainers deprecation warnings
+
+### Internal
+
+* ♻️ Refactor tests: consolidate and enhance integration and unit tests
+* ♻️ Extract API pagination limits and SCHEDULE_PREFIX constant to constants.py
+* ♻️ Refactor Import Error with MissingDependencyError
+* 🏷️ Remove all type ignore comments by fixing underlying type issues
+* 👷 Replace mypy with Astral ty for the type checker
+* 👷 Add flags to Codecov uploads for better coverage tracking
+* 👷 Organize ruff configuration and rearrange import statements
+* 👷 Refactor integration tests step in CI workflow
+* 💚 Update release workflow and CI formatting
+* 🙈 Update .gitignore
+* ➖ Remove typer dependency from development requirements
+ ⬆️ Bump pytest, ruff, fastapi, sqlalchemy, and uv dependencies
+ * 🔧 Update default Python version to 3.14 in pre-commit configuration
+
+### Docs
+
+* ✏️ Fix typos in README.md and code comments
+
 ## 0.2.0
 
 ### Features
