@@ -8,6 +8,7 @@ from fastapi_apscheduler4.dtos import LimitOffset
 from fastapi_apscheduler4.routers.deps import get_scheduler_api_config, limit_offset
 
 
+@pytest.mark.unit
 def test_get_scheduler_api_config() -> None:
     """Test get_scheduler_api_config returns config instance."""
     # Act
@@ -19,6 +20,7 @@ def test_get_scheduler_api_config() -> None:
     assert config.limit_max == API_PAGE_MAX_LIMIT
 
 
+@pytest.mark.unit
 def test_get_scheduler_api_config_is_cached() -> None:
     """Test get_scheduler_api_config returns same instance (lru_cache)."""
     # Act
@@ -29,6 +31,7 @@ def test_get_scheduler_api_config_is_cached() -> None:
     assert config1 is config2
 
 
+@pytest.mark.unit
 def test_limit_offset_with_default_limit() -> None:
     """Test limit_offset uses config default when limit is None."""
     # Arrange
@@ -43,6 +46,7 @@ def test_limit_offset_with_default_limit() -> None:
     assert result.offset == 0
 
 
+@pytest.mark.unit
 def test_limit_offset_with_explicit_limit() -> None:
     """Test limit_offset uses provided limit when valid."""
     # Arrange
@@ -58,6 +62,7 @@ def test_limit_offset_with_explicit_limit() -> None:
     assert result.offset == explicit_offset
 
 
+@pytest.mark.unit
 def test_limit_offset_caps_at_max() -> None:
     """Test limit_offset caps limit at config.limit_max."""
     # Arrange
@@ -72,6 +77,7 @@ def test_limit_offset_caps_at_max() -> None:
     assert result.offset == 0
 
 
+@pytest.mark.unit
 def test_limit_offset_with_custom_config(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test limit_offset respects custom config values from environment."""
     # Arrange
@@ -96,6 +102,7 @@ def test_limit_offset_with_custom_config(monkeypatch: pytest.MonkeyPatch) -> Non
     get_scheduler_api_config.cache_clear()
 
 
+@pytest.mark.unit
 def test_limit_offset_with_various_offsets() -> None:
     """Test limit_offset handles different offset values."""
     # Arrange
@@ -116,6 +123,7 @@ def test_limit_offset_with_various_offsets() -> None:
     assert result3.offset == large_offset
 
 
+@pytest.mark.unit
 def test_limit_offset_with_none_config() -> None:
     """Test limit_offset handles None config by using default."""
     # Arrange

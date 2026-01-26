@@ -15,6 +15,7 @@ from fastapi_apscheduler4.config import (
 from fastapi_apscheduler4.constants import API_PAGE_DEFAULT_LIMIT
 
 
+@pytest.mark.unit
 def test_config_default() -> None:
     """Test create scheduler config from environment variables."""
     # Arrange
@@ -28,6 +29,7 @@ def test_config_default() -> None:
 
 
 @pytest.mark.parametrize("username", ["USER", "USERNAME"])
+@pytest.mark.unit
 def test_postgres_env_config(monkeypatch: pytest.MonkeyPatch, postgres_config: PostgresConfig, username: str) -> None:
     """Test create postgres config from environment variables."""
     # Arrange
@@ -43,6 +45,7 @@ def test_postgres_env_config(monkeypatch: pytest.MonkeyPatch, postgres_config: P
     assert config.model_dump() == postgres_config.model_dump()
 
 
+@pytest.mark.unit
 def test_redis_config(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test create redis config from environment variables."""
     # Arrange
@@ -58,6 +61,7 @@ def test_redis_config(monkeypatch: pytest.MonkeyPatch) -> None:
     assert config.model_dump() == expected_config.model_dump()
 
 
+@pytest.mark.unit
 def test_config_api(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test create api config from environment variables."""
     # Arrange
@@ -82,6 +86,7 @@ def test_config_api(monkeypatch: pytest.MonkeyPatch) -> None:
     assert config.model_dump() == expected_config.model_dump()
 
 
+@pytest.mark.unit
 def test_config_api_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test create config from environment variables with API disabled."""
     # Arrange
@@ -95,6 +100,7 @@ def test_config_api_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
     assert config.model_dump() == expected_config.model_dump()
 
 
+@pytest.mark.unit
 def test_config_api_limit_validation_fails_when_default_greater_than_max(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test that config validation fails when limit_default > limit_max."""
     # Arrange
@@ -106,6 +112,7 @@ def test_config_api_limit_validation_fails_when_default_greater_than_max(monkeyp
         SchedulerAPIEnvConfig()
 
 
+@pytest.mark.unit
 def test_config_api_limit_validation_succeeds_when_default_equals_max(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test that config validation succeeds when limit_default == limit_max."""
     # Arrange
@@ -121,6 +128,7 @@ def test_config_api_limit_validation_succeeds_when_default_equals_max(monkeypatc
     assert config.limit_max == limit_value
 
 
+@pytest.mark.unit
 def test_config_api_limit_validation_succeeds_when_default_less_than_max(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test that config validation succeeds when limit_default < limit_max."""
     # Arrange

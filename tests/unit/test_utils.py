@@ -9,6 +9,7 @@ from fastapi_apscheduler4.errors import DeleteNotAllowedAPIError, NotFoundAPIErr
 from fastapi_apscheduler4.utils import paginate, safe_error
 
 
+@pytest.mark.unit
 def test_safe_error_decorator() -> None:
     """Test safe error decorator."""
 
@@ -54,6 +55,7 @@ def test_safe_error_decorator() -> None:
         always_raise_delete_not_allowed_api_error()
 
 
+@pytest.mark.unit
 def test_safe_error_contextmanager() -> None:
     """Test safe error context manager."""
 
@@ -101,6 +103,7 @@ def test_safe_error_contextmanager() -> None:
         always_raise_delete_not_allowed_api_error()
 
 
+@pytest.mark.unit
 def test_paginate() -> None:
     """Test paginate."""
     # Arrange

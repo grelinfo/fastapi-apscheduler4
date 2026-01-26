@@ -15,6 +15,7 @@ from fastapi_apscheduler4.config import (
 from fastapi_apscheduler4.errors import ConfigNotFoundError, MissingDependencyError
 
 
+@pytest.mark.unit
 def test_compute_event_broker_type_auto(redis_config: RedisConfig, postgres_config: PostgresConfig) -> None:
     """Test compute event broker type with auto discovery."""
     # Arrange
@@ -36,6 +37,7 @@ def test_compute_event_broker_type_auto(redis_config: RedisConfig, postgres_conf
     assert redis_and_postgres_result is EventBrokerType.REDIS
 
 
+@pytest.mark.unit
 def test_compute_event_broker_type_redis(redis_config: RedisConfig, postgres_config: PostgresConfig) -> None:
     """Test compute event broker type for redis."""
     # Arrange
@@ -58,6 +60,7 @@ def test_compute_event_broker_type_redis(redis_config: RedisConfig, postgres_con
     assert redis_and_postgres_result is EventBrokerType.REDIS
 
 
+@pytest.mark.unit
 def test_compute_event_broker_type_postgres(redis_config: RedisConfig, postgres_config: PostgresConfig) -> None:
     """Test compute event broker type for postgres."""
     # Arrange
@@ -80,6 +83,7 @@ def test_compute_event_broker_type_postgres(redis_config: RedisConfig, postgres_
     assert redis_and_postgres_result is EventBrokerType.POSTGRES
 
 
+@pytest.mark.unit
 def test_compute_event_broker_type_memory(redis_config: RedisConfig, postgres_config: PostgresConfig) -> None:
     """Test compute event broker type for memory."""
     # Arrange
@@ -102,6 +106,7 @@ def test_compute_event_broker_type_memory(redis_config: RedisConfig, postgres_co
     assert redis_and_postgres_result is EventBrokerType.MEMORY
 
 
+@pytest.mark.unit
 def test_computed_data_store_type_auto(redis_config: RedisConfig, postgres_config: PostgresConfig) -> None:
     """Test compute data store type with auto discovery."""
     # Arrange
@@ -123,6 +128,7 @@ def test_computed_data_store_type_auto(redis_config: RedisConfig, postgres_confi
     assert redis_and_postgres_result is DataStoreType.POSTGRES
 
 
+@pytest.mark.unit
 def test_computed_data_store_type_postgres(redis_config: RedisConfig, postgres_config: PostgresConfig) -> None:
     """Test compute data store type for postgres."""
     # Arrange
@@ -145,6 +151,7 @@ def test_computed_data_store_type_postgres(redis_config: RedisConfig, postgres_c
     assert redis_and_postgres_result is DataStoreType.POSTGRES
 
 
+@pytest.mark.unit
 def test_computed_data_store_type_memory(redis_config: RedisConfig, postgres_config: PostgresConfig) -> None:
     """Test compute data store type for memory."""
     # Arrange
@@ -167,6 +174,7 @@ def test_computed_data_store_type_memory(redis_config: RedisConfig, postgres_con
     assert redis_and_postgres_result is DataStoreType.MEMORY
 
 
+@pytest.mark.unit
 def test_build_event_broker_redis_missing_dependency(redis_config: RedisConfig) -> None:
     """Test build event broker raises MissingDependencyError when redis package is missing."""
     # Arrange
@@ -184,6 +192,7 @@ def test_build_event_broker_redis_missing_dependency(redis_config: RedisConfig) 
         assert isinstance(exc_info.value, ImportError)
 
 
+@pytest.mark.unit
 def test_build_event_broker_postgres_missing_dependency(postgres_config: PostgresConfig) -> None:
     """Test build event broker raises MissingDependencyError when asyncpg package is missing."""
     # Arrange
@@ -201,6 +210,7 @@ def test_build_event_broker_postgres_missing_dependency(postgres_config: Postgre
         assert isinstance(exc_info.value, ImportError)
 
 
+@pytest.mark.unit
 def test_build_data_store_postgres_missing_dependency(postgres_config: PostgresConfig) -> None:
     """Test build data store raises MissingDependencyError when sqlalchemy package is missing."""
     # Arrange

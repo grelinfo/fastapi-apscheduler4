@@ -1,7 +1,6 @@
 """Test on Postgres with testcontainers."""
 # ruff: noqa: T201
 
-import warnings
 from collections.abc import Generator
 
 import pytest
@@ -9,13 +8,7 @@ from apscheduler import RunState
 from fastapi import FastAPI, Request, status
 from fastapi.responses import PlainTextResponse
 from fastapi.testclient import TestClient
-
-# Suppress testcontainers' internal deprecation warnings during import
-# Their library triggers DeprecationWarning at module load time in waiting_utils.py:215
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore", message=".*@wait_container_is_ready.*", category=DeprecationWarning)
-    from testcontainers.core.container import DockerContainer
-    from testcontainers.core.wait_strategies import LogMessageWaitStrategy
+from testcontainers.postgres import PostgresContainer
 
 from fastapi_apscheduler4 import SchedulerApp
 
@@ -31,22 +24,19 @@ def echo_test1() -> None:
 
 
 @pytest.fixture
-def postgres_container(monkeypatch: pytest.MonkeyPatch) -> Generator[DockerContainer, None, None]:
+def postgres_container(monkeypatch: pytest.MonkeyPatch) -> Generator[PostgresContainer, None, None]:
     """Create a Postgres container."""
-    monkeypatch.setenv("POSTGRES_HOST", "localhost")
-    monkeypatch.setenv("POSTGRES_DB", "test")
-    monkeypatch.setenv("POSTGRES_USER", "test")
-    monkeypatch.setenv("POSTGRES_PASSWORD", "test")
+    # PostgresContainer has built-in defaults: user=test, password=test, dbname=test
+    container = PostgresContainer("postgres:latest")
 
-    container = (
-        DockerContainer("postgres:latest")
-        .with_exposed_ports(5432)
-        .with_env("POSTGRES_USER", "test")
-        .with_env("POSTGRES_PASSWORD", "test")
-        .with_env("POSTGRES_DB", "test")
-        .waiting_for(LogMessageWaitStrategy("database system is ready to accept connections"))
-    )
     with container as postgres:
+        # Set environment variables for the app to connect
+        monkeypatch.setenv("POSTGRES_HOST", postgres.get_container_host_ip())
+        monkeypatch.setenv("POSTGRES_PORT", str(postgres.get_exposed_port(5432)))
+        monkeypatch.setenv("POSTGRES_DB", "test")
+        monkeypatch.setenv("POSTGRES_USER", "test")
+        monkeypatch.setenv("POSTGRES_PASSWORD", "test")
+
         yield postgres
 
 

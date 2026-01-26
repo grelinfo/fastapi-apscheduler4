@@ -49,6 +49,7 @@ def echo_test4() -> None:
     print("test4")
 
 
+@pytest.mark.integration
 def test_app_lifespan(capsys: pytest.CaptureFixture[str]) -> None:
     """Test scheduler lifespan."""
     # Arrange
@@ -75,6 +76,7 @@ def test_app_lifespan(capsys: pytest.CaptureFixture[str]) -> None:
     assert response.status_code == status.HTTP_200_OK
 
 
+@pytest.mark.integration
 def test_init_memory() -> None:
     """Test setup with memory config."""
     # Arrange
@@ -93,6 +95,7 @@ def test_init_memory() -> None:
     assert isinstance(scheduler_app.apscheduler.data_store, MemoryDataStore)
 
 
+@pytest.mark.integration
 def test_init_redis(redis_config: RedisConfig) -> None:
     """Test init with redis."""
     # Arrange
@@ -108,6 +111,7 @@ def test_init_redis(redis_config: RedisConfig) -> None:
     assert isinstance(scheduler_app.apscheduler.data_store, MemoryDataStore)
 
 
+@pytest.mark.integration
 def test_init_postgres(postgres_config: PostgresConfig) -> None:
     """Test init with postgres config."""
     # Arrange
@@ -126,6 +130,7 @@ def test_init_postgres(postgres_config: PostgresConfig) -> None:
     assert isinstance(app_scheduler.apscheduler.data_store, SQLAlchemyDataStore)
 
 
+@pytest.mark.integration
 def test_init_config_not_found_error() -> None:
     """Test init with config not found error."""
     # Arrange
@@ -157,6 +162,7 @@ def test_setup_api(scheduler_api: bool) -> None:
     assert response.status_code == expected_status_code
 
 
+@pytest.mark.integration
 def test_already_setup_error() -> None:
     """Test already setup error."""
     # Arrange
