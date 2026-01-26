@@ -1,6 +1,6 @@
 """Test Scheduler API Router."""
-# ruff: noqa: T201
 
+# ruff: noqa: T201
 from apscheduler.triggers.combining import OrTrigger
 from apscheduler.triggers.interval import IntervalTrigger as APSIntervalTrigger
 from fastapi import FastAPI, status
@@ -45,7 +45,7 @@ def test_schedules_api_router() -> None:
     scheduler_app.cron(day_of_week=1)(echo_test2)
     scheduler_app.calendar_interval(days=1)(echo_test3)
     unknown_trigger = OrTrigger([APSIntervalTrigger(seconds=1), APSIntervalTrigger(minutes=1)])
-    scheduler_app.schedules.append((echo_test4, unknown_trigger))  # ty:ignore[invalid-argument-type]
+    scheduler_app.schedules.append((echo_test4, unknown_trigger))
     expected_schedules_count = 4
 
     app = FastAPI(lifespan=scheduler_app.lifespan)

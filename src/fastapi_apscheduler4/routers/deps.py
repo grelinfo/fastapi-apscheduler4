@@ -7,7 +7,7 @@ from fastapi import Depends, Query
 from fastapi_apscheduler4.config import SchedulerAPIEnvConfig
 from fastapi_apscheduler4.dtos import LimitOffset
 
-_config = SchedulerAPIEnvConfig()  # pyright: ignore[reportCallIssue]
+_config = SchedulerAPIEnvConfig()
 
 
 def limit_offset(

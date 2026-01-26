@@ -1,22 +1,11 @@
 """Data Transfer Objects (DTOs)."""
 
-from typing import Protocol
+from collections.abc import Callable
 
 from apscheduler.abc import Trigger as APSchedulerTrigger
 from pydantic import BaseModel, Field
 
-
-class NamedCallable(Protocol):
-    """Protocol for a callable with a __name__ attribute (e.g., functions)."""
-
-    __name__: str
-
-    def __call__(self, *args: object, **kwargs: object) -> object:
-        """Call the function."""
-        ...
-
-
-ScheduleType = tuple[NamedCallable, APSchedulerTrigger]
+ScheduleType = tuple[Callable, APSchedulerTrigger]
 
 
 class LimitOffset(BaseModel):
