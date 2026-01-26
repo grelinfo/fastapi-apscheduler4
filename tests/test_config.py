@@ -1,7 +1,7 @@
 """Test configuration."""
 
 import pytest
-from pydantic import SecretStr
+from pydantic import SecretStr, ValidationError
 
 from fastapi_apscheduler4.config import (
     PostgresConfig,
@@ -12,6 +12,7 @@ from fastapi_apscheduler4.config import (
     SchedulerConfig,
     SchedulerEnvConfig,
 )
+from fastapi_apscheduler4.constants import API_PAGE_DEFAULT_LIMIT
 
 
 def test_config_default() -> None:
@@ -92,3 +93,45 @@ def test_config_api_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
 
     # Assert
     assert config.model_dump() == expected_config.model_dump()
+
+
+def test_config_api_limit_validation_fails_when_default_greater_than_max(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test that config validation fails when limit_default > limit_max."""
+    # Arrange
+    monkeypatch.setenv("SCHEDULER_API_LIMIT_DEFAULT", "1000")
+    monkeypatch.setenv("SCHEDULER_API_LIMIT_MAX", "100")
+
+    # Act & Assert
+    with pytest.raises(ValidationError, match=r"limit_default.*must be less than or equal to limit_max"):
+        SchedulerAPIEnvConfig()
+
+
+def test_config_api_limit_validation_succeeds_when_default_equals_max(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test that config validation succeeds when limit_default == limit_max."""
+    # Arrange
+    limit_value = API_PAGE_DEFAULT_LIMIT
+    monkeypatch.setenv("SCHEDULER_API_LIMIT_DEFAULT", str(limit_value))
+    monkeypatch.setenv("SCHEDULER_API_LIMIT_MAX", str(limit_value))
+
+    # Act
+    config = SchedulerAPIEnvConfig()
+
+    # Assert
+    assert config.limit_default == limit_value
+    assert config.limit_max == limit_value
+
+
+def test_config_api_limit_validation_succeeds_when_default_less_than_max(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test that config validation succeeds when limit_default < limit_max."""
+    # Arrange
+    custom_default = 50
+    custom_max = 500
+    monkeypatch.setenv("SCHEDULER_API_LIMIT_DEFAULT", str(custom_default))
+    monkeypatch.setenv("SCHEDULER_API_LIMIT_MAX", str(custom_max))
+
+    # Act
+    config = SchedulerAPIEnvConfig()
+
+    # Assert
+    assert config.limit_default == custom_default
+    assert config.limit_max == custom_max

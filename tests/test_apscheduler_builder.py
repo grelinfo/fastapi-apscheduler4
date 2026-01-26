@@ -1,5 +1,7 @@
 """Test APScheduler Builder."""
 
+from unittest.mock import patch
+
 import pytest
 
 from fastapi_apscheduler4.apscheduler_builder import APSSchedulerBuilder
@@ -10,7 +12,7 @@ from fastapi_apscheduler4.config import (
     RedisConfig,
     SchedulerConfig,
 )
-from fastapi_apscheduler4.errors import ConfigNotFoundError
+from fastapi_apscheduler4.errors import ConfigNotFoundError, MissingDependencyError
 
 
 def test_compute_event_broker_type_auto(redis_config: RedisConfig, postgres_config: PostgresConfig) -> None:
@@ -163,3 +165,54 @@ def test_computed_data_store_type_memory(redis_config: RedisConfig, postgres_con
     assert redis_result is DataStoreType.MEMORY
     assert postgres_result is DataStoreType.MEMORY
     assert redis_and_postgres_result is DataStoreType.MEMORY
+
+
+def test_build_event_broker_redis_missing_dependency(redis_config: RedisConfig) -> None:
+    """Test build event broker raises MissingDependencyError when redis package is missing."""
+    # Arrange
+    scheduler = SchedulerConfig(event_broker=EventBrokerType.REDIS)
+    builder = APSSchedulerBuilder(scheduler=scheduler, redis=redis_config)
+
+    # Act & Assert
+    with patch("builtins.__import__", side_effect=ImportError("No module named 'redis'")):
+        with pytest.raises(MissingDependencyError) as exc_info:
+            builder.build_event_broker()
+
+        assert "redis" in str(exc_info.value)
+        assert "Redis event broker" in str(exc_info.value)
+        assert "redis" in str(exc_info.value)
+        assert isinstance(exc_info.value, ImportError)
+
+
+def test_build_event_broker_postgres_missing_dependency(postgres_config: PostgresConfig) -> None:
+    """Test build event broker raises MissingDependencyError when asyncpg package is missing."""
+    # Arrange
+    scheduler = SchedulerConfig(event_broker=EventBrokerType.POSTGRES)
+    builder = APSSchedulerBuilder(scheduler=scheduler, postgres=postgres_config)
+
+    # Act & Assert
+    with patch("builtins.__import__", side_effect=ImportError("No module named 'asyncpg'")):
+        with pytest.raises(MissingDependencyError) as exc_info:
+            builder.build_event_broker()
+
+        assert "asyncpg" in str(exc_info.value)
+        assert "Postgres event broker" in str(exc_info.value)
+        assert "postgres" in str(exc_info.value)
+        assert isinstance(exc_info.value, ImportError)
+
+
+def test_build_data_store_postgres_missing_dependency(postgres_config: PostgresConfig) -> None:
+    """Test build data store raises MissingDependencyError when sqlalchemy package is missing."""
+    # Arrange
+    scheduler = SchedulerConfig(data_store=DataStoreType.POSTGRES)
+    builder = APSSchedulerBuilder(scheduler=scheduler, postgres=postgres_config)
+
+    # Act & Assert
+    with patch("builtins.__import__", side_effect=ImportError("No module named 'sqlalchemy'")):
+        with pytest.raises(MissingDependencyError) as exc_info:
+            builder.build_data_store()
+
+        assert "sqlalchemy" in str(exc_info.value)
+        assert "Postgres data store" in str(exc_info.value)
+        assert "postgres" in str(exc_info.value)
+        assert isinstance(exc_info.value, ImportError)

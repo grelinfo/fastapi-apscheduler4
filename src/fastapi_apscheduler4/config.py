@@ -13,11 +13,13 @@ from pydantic import (
     PostgresDsn,
     RedisDsn,
     SecretStr,
+    model_validator,
 )
 from pydantic_core import MultiHostUrl, Url
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing_extensions import Self
 
+from fastapi_apscheduler4.constants import API_PAGE_DEFAULT_LIMIT, API_PAGE_MAX_LIMIT
 from fastapi_apscheduler4.utils import transform_comma_separated_string_to_list
 
 
@@ -199,7 +201,7 @@ class SchedulerAPIEnvConfig(SchedulerAPIConfig, _BaseEnvConfig):
                 "Page size default limit (only configurable via `SCHEDULER_API_LIMIT_DEFAULT` environment variable)."
             ),
         ),
-    ] = 100
+    ] = API_PAGE_DEFAULT_LIMIT
     limit_max: Annotated[
         int,
         Field(
@@ -208,4 +210,12 @@ class SchedulerAPIEnvConfig(SchedulerAPIConfig, _BaseEnvConfig):
                 "Page size maximum limit (only configurable via `SCHEDULER_API_LIMIT_MAX` environment variable)."
             ),
         ),
-    ] = 1000
+    ] = API_PAGE_MAX_LIMIT
+
+    @model_validator(mode="after")
+    def validate_limits(self) -> Self:
+        """Validate that limit_default is less than or equal to limit_max."""
+        if self.limit_default > self.limit_max:
+            msg = f"limit_default ({self.limit_default}) must be less than or equal to limit_max ({self.limit_max})"
+            raise ValueError(msg)
+        return self
