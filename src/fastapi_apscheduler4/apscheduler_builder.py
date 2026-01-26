@@ -16,7 +16,7 @@ from fastapi_apscheduler4.config import (
     SchedulerConfig,
     SchedulerEnvConfig,
 )
-from fastapi_apscheduler4.errors import ConfigNotFoundError
+from fastapi_apscheduler4.errors import ConfigNotFoundError, MissingDependencyError
 
 
 class APSSchedulerBuilder(BaseModel):
@@ -76,7 +76,14 @@ class APSSchedulerBuilder(BaseModel):
 
         if broker_type is EventBrokerType.REDIS:
             # Lazy imports to avoid Redis dependency
-            from apscheduler.eventbrokers.redis import RedisEventBroker
+            try:
+                from apscheduler.eventbrokers.redis import RedisEventBroker
+            except ImportError as e:
+                raise MissingDependencyError(
+                    dependency="redis",
+                    feature="Redis event broker",
+                    extra="redis",
+                ) from e
 
             if not self.redis:
                 raise ConfigNotFoundError("redis", "Required for Redis event broker.")
@@ -84,8 +91,15 @@ class APSSchedulerBuilder(BaseModel):
             return RedisEventBroker(self.redis.get_redis_url(), channel=self.scheduler.redis_channel)
 
         if broker_type is EventBrokerType.POSTGRES:
-            # Lazy imports to avoid SQLAlchemy dependency
-            from apscheduler.eventbrokers.asyncpg import AsyncpgEventBroker
+            # Lazy imports to avoid asyncpg dependency
+            try:
+                from apscheduler.eventbrokers.asyncpg import AsyncpgEventBroker
+            except ImportError as e:
+                raise MissingDependencyError(
+                    dependency="asyncpg",
+                    feature="Postgres event broker",
+                    extra="postgres",
+                ) from e
 
             if not self.postgres:
                 raise ConfigNotFoundError("postgres", "Required for Postgres event broker.")
@@ -107,7 +121,14 @@ class APSSchedulerBuilder(BaseModel):
 
         if data_store_type is DataStoreType.POSTGRES:
             # Lazy imports to avoid SQLAlchemy dependency
-            from apscheduler.datastores.sqlalchemy import SQLAlchemyDataStore
+            try:
+                from apscheduler.datastores.sqlalchemy import SQLAlchemyDataStore
+            except ImportError as e:
+                raise MissingDependencyError(
+                    dependency="sqlalchemy",
+                    feature="Postgres data store",
+                    extra="postgres",
+                ) from e
 
             if not self.postgres:
                 raise ConfigNotFoundError("postgres", "Required for Postgres data store.")

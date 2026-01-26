@@ -51,6 +51,19 @@ class AlreadySetupError(SetupError):
         super().__init__("FastAPIAPScheduler4 is already setup.")
 
 
+class MissingDependencyError(ImportError):
+    """Missing Dependency Error.
+
+    Raised when a required optional dependency is not installed.
+    """
+
+    def __init__(self, dependency: str, feature: str, extra: str) -> None:
+        """Initialize the error."""
+        super().__init__(
+            f"Missing required dependency: '{dependency}' for {feature}. Install with the '{extra}' extra."
+        )
+
+
 class ConfigError(FastAPIAPScheduler4Error):
     """Configuration Error.
 

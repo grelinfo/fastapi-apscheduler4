@@ -146,6 +146,9 @@ ignore = [
 "**/router*" = [
   "TC001", # typing-only-first-party-import
 ]
+"**/apscheduler_builder.py" = [
+  "PLC0415", # import-outside-top-level (intentional lazy imports for optional dependencies)
+]
 
 [tool.ruff.pydocstyle]
 convention = "google"
