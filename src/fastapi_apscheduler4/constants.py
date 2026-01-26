@@ -1,3 +1,7 @@
 """Constants."""
 
 SCHEDULE_PREFIX = "auto:"
+
+
+API_PAGE_DEFAULT_LIMIT = 100
+API_PAGE_MAX_LIMIT = 1000
