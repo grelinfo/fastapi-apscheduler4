@@ -13,6 +13,7 @@ from pydantic import (
     PostgresDsn,
     RedisDsn,
     SecretStr,
+    model_validator,
 )
 from pydantic_core import MultiHostUrl, Url
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -210,3 +211,11 @@ class SchedulerAPIEnvConfig(SchedulerAPIConfig, _BaseEnvConfig):
             ),
         ),
     ] = API_PAGE_MAX_LIMIT
+
+    @model_validator(mode="after")
+    def validate_limits(self) -> Self:
+        """Validate that limit_default is less than or equal to limit_max."""
+        if self.limit_default > self.limit_max:
+            msg = f"limit_default ({self.limit_default}) must be less than or equal to limit_max ({self.limit_max})"
+            raise ValueError(msg)
+        return self
