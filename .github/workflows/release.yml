@@ -45,6 +45,12 @@ jobs:
       run: |
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+    - name: Fetch and merge remote gh-pages
+      run: |
+        git fetch origin gh-pages:gh-pages || true
+        git checkout gh-pages || git checkout --orphan gh-pages
+        git pull origin gh-pages || true
+        git checkout ${{ github.ref_name }}
     - name: Install uv and Activate Environment
       uses: astral-sh/setup-uv@v7
       with:
