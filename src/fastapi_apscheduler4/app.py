@@ -21,9 +21,9 @@ from fastapi_apscheduler4.config import (
     SchedulerConfig,
     SchedulerEnvConfig,
 )
+from fastapi_apscheduler4.constants import SCHEDULE_PREFIX
 from fastapi_apscheduler4.errors import AlreadySetupError
 from fastapi_apscheduler4.scheduler import Scheduler
-from fastapi_apscheduler4.schemas import SCHEDULE_PREFIX
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator, Callable
