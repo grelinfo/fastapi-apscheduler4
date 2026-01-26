@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from collections.abc import Callable
 from typing import TYPE_CHECKING
 
 from fastapi import HTTPException, status
@@ -11,6 +10,8 @@ from fastapi import HTTPException, status
 from fastapi_apscheduler4 import logger
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from pydantic import BaseModel
 
 
