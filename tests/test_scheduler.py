@@ -56,6 +56,7 @@ def test_interval_decorator_multiple_error() -> None:
     assert len(scheduler._schedules) == 1
     scheduler1_func, scheduler1_trigger = scheduler._schedules[0]
 
+    assert hasattr(scheduler1_func, "__name__")
     assert scheduler1_func.__name__ == "mutiple_interval"
     assert isinstance(scheduler1_trigger, APSIntervalTrigger)
     assert scheduler1_trigger.seconds == 1

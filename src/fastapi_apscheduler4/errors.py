@@ -10,9 +10,9 @@ from fastapi import HTTPException, status
 from fastapi_apscheduler4 import logger
 
 if TYPE_CHECKING:
-    from pydantic import BaseModel
+    from collections.abc import Callable
 
-    from fastapi_apscheduler4.dtos import NamedCallable
+    from pydantic import BaseModel
 
 
 class FastAPIAPScheduler4Error(Exception):
@@ -75,9 +75,10 @@ class ScheduleAlreadyExistsError(FastAPIAPScheduler4Error, ValueError):
     Raised when trying to add a schedule that already exists.
     """
 
-    def __init__(self, func: NamedCallable) -> None:
+    def __init__(self, func: Callable) -> None:
         """Initialize the error."""
-        super().__init__(f"Schedule for function {func.__name__} already exists.")
+        func_name = getattr(func, "__name__", repr(func))
+        super().__init__(f"Schedule for function {func_name} already exists.")
 
 
 class APIError(FastAPIAPScheduler4Error, HTTPException):

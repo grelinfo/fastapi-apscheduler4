@@ -9,9 +9,10 @@ from fastapi import APIRouter, Query, Response, status
 
 from fastapi_apscheduler4 import logger
 from fastapi_apscheduler4.config import SchedulerAPIConfig
+from fastapi_apscheduler4.constants import SCHEDULE_PREFIX
 from fastapi_apscheduler4.errors import DeleteNotAllowedAPIError, NotFoundAPIError, UnexpectedAPIError
 from fastapi_apscheduler4.routers.deps import LimitOffsetQueryParams
-from fastapi_apscheduler4.schemas import SCHEDULE_PREFIX, Schedule
+from fastapi_apscheduler4.schemas import Schedule
 from fastapi_apscheduler4.utils import paginate, safe_error
 
 if TYPE_CHECKING:

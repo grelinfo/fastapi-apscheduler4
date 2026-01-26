@@ -14,8 +14,6 @@ from pydantic_extra_types.timezone_name import TimeZoneName as _TimeZoneName
 
 from fastapi_apscheduler4.utils import enforce_enum_name, transform_tzinfo_to_str
 
-SCHEDULE_PREFIX = "auto:"
-
 TimeZoneName = Annotated[_TimeZoneName, BeforeValidator(transform_tzinfo_to_str)]
 """Timezone in string format."""
 

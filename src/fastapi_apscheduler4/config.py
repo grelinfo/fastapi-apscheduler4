@@ -57,6 +57,17 @@ class _BaseEnvConfig(BaseSettings):
             return cls()
         return None
 
+    @classmethod
+    def from_env(cls) -> Self:
+        """Create the config from environment variables.
+
+        Alias for the constructor to avoid type checker issues.
+
+        Raises:
+            ValidationError: If the environment variables are not valid.
+        """
+        return cls()
+
 
 class EventBrokerType(str, Enum):
     """Scheduler broker."""
