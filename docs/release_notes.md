@@ -22,6 +22,8 @@ No source changes. Documentation and dependency refresh only.
 * 🔒️ Bump the uv group with 7 updates, closing starlette, urllib3, idna,
   pydantic-settings, pymdown-extensions and python-dotenv advisories
 * 🔧 Add step to fetch and merge remote gh-pages in release workflow
+* ⬆️ Align ruff and uv pre-commit hooks with the project versions
+* 👷 Add the pre-commit ecosystem to Dependabot updates
 
 ## 0.3.0
 
