@@ -49,7 +49,7 @@ jobs:
         run: pytest -x -m "not integration" --cov --junitxml=junit.xml -o junit_family=legacy
       - name: Upload Unit Test Coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           flags: "${{ matrix.python }},unit"
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -63,7 +63,7 @@ jobs:
         run: pytest -x -m integration --cov --junitxml=junit.xml -o junit_family=legacy
       - name: Upload Integration Test Coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           flags: "${{ matrix.python }},integration"
           token: ${{ secrets.CODECOV_TOKEN }}
