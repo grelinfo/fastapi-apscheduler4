@@ -30,3 +30,9 @@ The project is still in development and not ready for production. The API may ch
 Specifically, because APScheduler main dependency is not yet released and ready for production too.
 
 Contributions are welcome! Feel free to open an issue or a pull request.
+
+## 🚀 Related project
+
+**[grelmicro](https://github.com/grelinfo/grelmicro)** — *Async-first toolkit. Microservice patterns inside.*
+
+Distributed locks, cache, rate limiting, circuit breakers, transactional outbox, and observability for Python. Includes a [small task scheduler](https://grelmicro.grel.info/task/) too. ⏰
