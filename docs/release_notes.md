@@ -1,5 +1,28 @@
 # Release Notes
 
+## 0.3.1
+
+No source changes. Documentation and dependency refresh only.
+
+### Docs
+
+* 📝 Add grelmicro related project section
+* 📝 Note APScheduler 4 has not released since 4.0.0a6 (April 2025)
+* ✏️ Fix documentation typo
+
+### Internal
+
+* ⬆️ Bump codecov/codecov-action from 5 to 6
+* ⬆️ Bump fastapi from 0.124.4 to 0.128.0
+* ⬆️ Bump sqlalchemy from 2.0.45 to 2.0.46
+* ⬆️ Bump pydantic-extra-types from 2.10.6 to 2.11.0
+* ⬆️ Bump ruff from 0.14.9 to 0.14.14
+* ⬆️ Bump pre-commit from 4.5.0 to 4.5.1
+* 🔒️ Bump pygments to 2.20.0 to fix a ReDoS advisory
+* 🔒️ Bump the uv group with 7 updates, closing starlette, urllib3, idna,
+  pydantic-settings, pymdown-extensions and python-dotenv advisories
+* 🔧 Add step to fetch and merge remote gh-pages in release workflow
+
 ## 0.3.0
 
 ### Features
