@@ -29,6 +29,10 @@ The key feature are:
 The project is still in development and not ready for production. The API may change in the future.
 Specifically, because APScheduler main dependency is not yet released and ready for production too.
 
+APScheduler 4 has not moved since **4.0.0a6, released in April 2025**. No newer 4.x release has
+been published since, so this project stays on that alpha and remains on hold until upstream ships
+a stable 4.0.
+
 Contributions are welcome! Feel free to open an issue or a pull request.
 
 ## 🚀 Related project
