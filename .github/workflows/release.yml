@@ -21,10 +21,11 @@ jobs:
       with:
         enable-cache: true
     - name: Set Package Version
+      env:
+        TAG_NAME: ${{ github.event.release.tag_name }}
       run: |
-        VERSION=${{ github.event.release.tag_name }}
         # Remove 'v' prefix if present
-        VERSION=${VERSION#v}
+        VERSION=${TAG_NAME#v}
         # Update version in pyproject.toml
         sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
         echo "Updated version to $VERSION"
@@ -60,6 +61,15 @@ jobs:
       run: uv sync
     - name: Get Version
       id: get-version
-      uses: battila7/get-version-action@v2
+      env:
+        TAG_NAME: ${{ github.event.release.tag_name }}
+      run: |
+        # Remove 'v' prefix if present, then keep only MAJOR.MINOR for the docs version
+        VERSION=${TAG_NAME#v}
+        MAJOR_MINOR=$(echo "$VERSION" | cut -d. -f1,2)
+        echo "major_minor=$MAJOR_MINOR" >> "$GITHUB_OUTPUT"
+        echo "Docs version: $MAJOR_MINOR"
     - name: Publish Docs
-      run: mike deploy --push --update-aliases ${{ steps.get-version.outputs.major }}.${{ steps.get-version.outputs.minor }} latest
+      env:
+        MAJOR_MINOR: ${{ steps.get-version.outputs.major_minor }}
+      run: mike deploy --push --update-aliases "$MAJOR_MINOR" latest
