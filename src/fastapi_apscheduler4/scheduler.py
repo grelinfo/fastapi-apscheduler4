@@ -67,7 +67,7 @@ class Scheduler:
 
         return decorator
 
-    def cron(  # noqa: PLR0913
+    def cron(  # noqa: PLR0913, PLR0917
         self,
         year: int | str | None = None,
         month: int | str | None = None,

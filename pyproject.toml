@@ -130,6 +130,7 @@ target-version = "py310"
 select = ["ALL"]
 ignore = [
   "COM812", # missing-trailing-comma
+  "CPY001", # missing-copyright-notice
   "D104",   # undocumented-public-package
   "ISC001", # single-line-implicit-string-concatenation
   "EM101",  # raw-string-in-exception

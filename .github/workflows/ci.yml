@@ -24,6 +24,10 @@ jobs:
           activate-environment: true
       - name: Install Dependencies
         run: uv sync
+      - name: Run Ruff
+        run: |
+          ruff check --output-format=github
+          ruff format --check
       - name: Run ty
         run: ty check
   test:

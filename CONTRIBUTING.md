@@ -91,11 +91,13 @@ def my_task() -> None:
     """Task function."""
     pass
 
+
 # ✗ Wrong - APScheduler cannot serialize nested functions
 @pytest.fixture
 def my_task() -> callable:
     def _task() -> None:
         pass
+
     return _task
 ```
 
