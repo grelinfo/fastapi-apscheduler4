@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -335,6 +335,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#032" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3.2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#031" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -358,7 +397,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#internal" class="md-nav__link">
+  <a href="#internal_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Internal
@@ -397,7 +436,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes" class="md-nav__link">
+  <a href="#fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -408,7 +447,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#internal_1" class="md-nav__link">
+  <a href="#internal_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Internal
@@ -458,7 +497,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#internal_2" class="md-nav__link">
+  <a href="#internal_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Internal
@@ -569,6 +608,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#032" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3.2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#031" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -592,7 +670,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#internal" class="md-nav__link">
+  <a href="#internal_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Internal
@@ -631,7 +709,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes" class="md-nav__link">
+  <a href="#fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -642,7 +720,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#internal_1" class="md-nav__link">
+  <a href="#internal_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Internal
@@ -692,7 +770,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#internal_2" class="md-nav__link">
+  <a href="#internal_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Internal
@@ -789,6 +867,22 @@
 
 
 <h1 id="release-notes">Release Notes</h1>
+<h2 id="032">0.3.2</h2>
+<h3 id="fixes">Fixes</h3>
+<ul>
+<li>🐛 Add <code>sniffio</code> to the <code>postgres</code> extra. APScheduler 4.0.0a6 imports it in its
+  SQLAlchemy data store without declaring it, and recent <code>anyio</code> releases no longer
+  pull it in, so <code>fastapi-apscheduler4[postgres]</code> failed to import on a fresh install.</li>
+</ul>
+<h3 id="internal">Internal</h3>
+<ul>
+<li>⬆️ Upgrade the lockfile with 43 dependency updates, including ty 0.0.13 to 0.0.69,
+  pydantic 2.12.4 to 2.13.4, sqlalchemy 2.0.46 to 2.0.51 and starlette 1.3.1 to 1.4.1</li>
+<li>🏷️ Replace a leftover mypy <code>type: ignore</code> with the ty equivalent</li>
+<li>🩹 Use <code>testcontainers.community.postgres</code> to fix a deprecation warning</li>
+<li>👷 Run ruff in the CI lint job, which previously only ran the type checker</li>
+<li>🚨 Ignore <code>CPY001</code> and allow the extra positional argument on <code>cron</code> for ruff 0.16</li>
+</ul>
 <h2 id="031">0.3.1</h2>
 <p>No source changes. Documentation and dependency refresh only.</p>
 <h3 id="docs">Docs</h3>
@@ -797,7 +891,7 @@
 <li>📝 Note APScheduler 4 has not released since 4.0.0a6 (April 2025)</li>
 <li>✏️ Fix documentation typo</li>
 </ul>
-<h3 id="internal">Internal</h3>
+<h3 id="internal_1">Internal</h3>
 <ul>
 <li>⬆️ Bump codecov/codecov-action from 5 to 6</li>
 <li>⬆️ Bump fastapi from 0.124.4 to 0.128.0</li>
@@ -819,13 +913,13 @@
 <li>✨ Add optional dependencies for PostgreSQL and Redis</li>
 <li>📌 Update apscheduler dependency to allow for minor version updates</li>
 </ul>
-<h3 id="fixes">Fixes</h3>
+<h3 id="fixes_1">Fixes</h3>
 <ul>
 <li>🐛 Fix tasks router list endpoint calling wrong method</li>
 <li>🐛 Fix conditional auto-start for APScheduler in SchedulerApp</li>
 <li>🩹 Fix testcontainers deprecation warnings</li>
 </ul>
-<h3 id="internal_1">Internal</h3>
+<h3 id="internal_2">Internal</h3>
 <ul>
 <li>♻️ Refactor tests: consolidate and enhance integration and unit tests</li>
 <li>♻️ Extract API pagination limits and SCHEDULE_PREFIX constant to constants.py</li>
@@ -850,7 +944,7 @@
 <ul>
 <li>📌 Upgrade APScheduler to v4.0.0a6 by <a href="https://github.com/grelinfo">@grelinfo</a> in <a href="https://github.com/grelinfo/fastapi-apscheduler4/pull/8">#8</a></li>
 </ul>
-<h3 id="internal_2">Internal</h3>
+<h3 id="internal_3">Internal</h3>
 <ul>
 <li>🧱 Replace Rye with UV as build tool by <a href="https://github.com/grelinfo">@grelinfo</a> in <a href="https://github.com/grelinfo/fastapi-apscheduler4/pull/2">#2</a></li>
 <li>👷 Add Dependabot config by <a href="https://github.com/grelinfo">@grelinfo</a> in <a href="https://github.com/grelinfo/fastapi-apscheduler4/pull/3">#3</a></li>
@@ -926,10 +1020,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.tabs.link", "content.code.copy", "content.code.select", "content.tooltips"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.tabs.link", "content.code.copy", "content.code.select", "content.tooltips"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
