@@ -131,7 +131,7 @@ def test_limit_offset_with_none_config() -> None:
     test_offset = 10
 
     # Act
-    result = limit_offset(config=None, limit=test_limit, offset=test_offset)  # type: ignore[arg-type]
+    result = limit_offset(config=None, limit=test_limit, offset=test_offset)  # ty: ignore[invalid-argument-type]
 
     # Assert
     assert result.limit == test_limit

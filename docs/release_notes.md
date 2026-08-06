@@ -1,5 +1,22 @@
 # Release Notes
 
+## 0.3.2
+
+### Fixes
+
+* 🐛 Add `sniffio` to the `postgres` extra. APScheduler 4.0.0a6 imports it in its
+  SQLAlchemy data store without declaring it, and recent `anyio` releases no longer
+  pull it in, so `fastapi-apscheduler4[postgres]` failed to import on a fresh install.
+
+### Internal
+
+* ⬆️ Upgrade the lockfile with 43 dependency updates, including ty 0.0.13 to 0.0.69,
+  pydantic 2.12.4 to 2.13.4, sqlalchemy 2.0.46 to 2.0.51 and starlette 1.3.1 to 1.4.1
+* 🏷️ Replace a leftover mypy `type: ignore` with the ty equivalent
+* 🩹 Use `testcontainers.community.postgres` to fix a deprecation warning
+* 👷 Run ruff in the CI lint job, which previously only ran the type checker
+* 🚨 Ignore `CPY001` and allow the extra positional argument on `cron` for ruff 0.16
+
 ## 0.3.1
 
 No source changes. Documentation and dependency refresh only.

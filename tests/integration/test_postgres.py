@@ -8,7 +8,7 @@ from apscheduler import RunState
 from fastapi import FastAPI, Request, status
 from fastapi.responses import PlainTextResponse
 from fastapi.testclient import TestClient
-from testcontainers.postgres import PostgresContainer
+from testcontainers.community.postgres import PostgresContainer
 
 from fastapi_apscheduler4 import SchedulerApp
 
