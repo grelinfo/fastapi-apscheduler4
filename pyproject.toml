@@ -87,6 +87,7 @@ docs = [
 ]
 
 [tool.uv]
+exclude-newer = "3 days"
 default-groups = ["dev", "docs"]
 
 [build-system]
